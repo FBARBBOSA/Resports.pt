@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clube Futsal de Oeiras - Plantel</title>
+    <!-- Incluir Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Usar a fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+       /* Definição de Cores e Fontes */
+        :root {
+            --color-bg-light: #f9f7f4; /* Fundo Creme/Bege */
+            --color-text-dark: #1f2937; /* Texto Escuro */
+            --color-primary-black: #000000;
+            --color-primary-green: #e1e3de; /* Cor de acento/tag - verde claro */
+            --color-card-bg: #ffffff; /* Fundo dos cartões */
+        }
+
+       body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-bg-light); /* Fundo Creme da imagem */
+            /* Padding superior para compensar a nav-bar fixa */
+            padding-top: 5rem; 
+            color: var(--color-primary-text);
+        }
+
+        /* Classe para o Header Fixo (Adaptação para o estilo claro) */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-card-bg); /* Fundo branco/claro */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+            z-index: 50; 
+            height: 5rem; 
+        }
+
+        /* Estilo para os botões de escalão (ativo) */
+        .escalao-active {
+            background-color: var(--color-dark-button);
+            color: rgb(184, 6, 6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Estilo para o cartão de descrição da equipa */
+        .equipa-desc-card {
+            background-color: var(--color-card-background);
+            border-radius: 1.5rem; /* rounded-3xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            
+        }
+
+        /* Estilo para o cartão de jogador */
+        .jogador-card {
+            background-color: var(--color-card-background);
+            border-radius: 1rem; 
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .jogador-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para o controlo de paginação */
+        .pagination-control {
+            background-color: var(--color-card-background);
+            border: 1px solid #d1d5db; /* border-gray-300 */
+            border-radius: 9999px; /* full rounded */
+            transition: background-color 0.2s;
+        }
+        .pagination-control:hover:not(:disabled) {
+            background-color: #f3f4f6; /* gray-100 */
+        }
+        
+        .pagination-active {
+            background-color: var(--color-dark-button);
+            color: rgb(199, 195, 195);
+        }
+
+        .pagination-control:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        
+
+
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto p-4 flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-3 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="imagens/fundo/transferir.png" alt="CF Oeiras Logo" class="w-12 h-12 object-contain">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-gray-900">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex justify-center space-x-8 xl:space-x-12 text-base font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-red-500 transition duration-300">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Equipas</a>
+                <a href="agenda.html" class="hover:text-red-500 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-red-500 transition duration-300">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-red-500 transition duration-300">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-red-500 transition duration-300">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-red-500 transition duration-300">Patrocinadores</a>
+
+            </div>
+
+            <!-- Botão de Ação Principal -->
+            <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                JUNTA-TE AO CLUBE
+            </a> 
+            
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL: SECÇÃO EQUIPAS (Layout da imagem) -->
+    <main class="flex-grow py-12 sm:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                
+                <!-- Título e Subtítulo -->
+                <p class="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-2">FORMAÇÃO E COMPETIÇÃO</p>
+                <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">Equipas</h1>
+                <p class="text-lg text-gray-600 mb-12">
+                    Explora os escalões do Clube Futsal de Oeiras, da formação à alta competição, e acompanha a evolução dos nossos atletas.
+                </p>
+                
+                <!-- Navegação por Escalão (Baseado na imagem) - Adicionado data-escalao e escalao-button -->
+                <div id="escalao-nav" class="equipa-desc-card p-2 flex flex-wrap justify-center gap-4 sm:gap-6 mb-12">
+                    <button class="escalao-button px-3 py-2 text-sm rounded-full text-gray-00 font-bold transition" data-escalao="BENJAMINS">BENJAMINS</button>
+                    <button class="escalao-button px-3 py-2 text-sm rounded-full text-gray-00 font-bold transition" data-escalao="INFANTIS">INFANTIS</button>
+                    <button class="escalao-button px-3 py-2 text-sm rounded-full text-gray-00 font-bold transition" data-escalao="INICIADOS">INICIADOS</button>
+                    <button class="escalao-button px-3 py-2 text-sm rounded-full text-gray-00 font-bold transition" data-escalao="JUVENIS">JUVENIS</button>
+                    <button class="escalao-button px-3 py-2 text-sm rounded-full text-gray-00 font-bold transition" data-escalao="JUNIORES">JUNIORES</button>
+                    <!-- Escalão SENIORES - ativo por defeito no JS -->
+                    <button class="escalao-button px-3 py-2 text-sm rounded-full text-gray-00 font-bold transition" data-escalao="SENIORES">SENIORES</button>
+                </div>
+
+                <!-- Descrição da Equipa (Card) - Adicionados IDs para atualização -->
+                <div class="equipa-desc-card p-6 sm:p-8 lg:p-10 text-left mb-12">
+                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
+                        
+                        <!-- Coluna da Categoria -->
+                        <div class="lg:w-2/3 space-y-2">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">CATEGORIA</p>
+                            <h2 id="escalao-title" class="text-2xl font-bold">Seniores</h2>
+                            <p id="escalao-description" class="text-sm text-gray-500 max-w-lg">
+                                Equipa focada na vertente competitiva, representando o clube nas principais competições regionais e nacionais.
+                            </p>
+                        </div>
+                        
+                        <!-- Coluna da Equipa Técnica/Horários -->
+                        <div class="lg:w-1/3 text-right space-y-2">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">EQUIPA TÉCNICA</p>
+                            <p id="escalao-tecnico" class="text-xl font-bold text-gray-900">Nuno Mendes</p>
+                            <p id="escalao-horario-top" class="text-sm text-gray-500">Segundas, Quintas e Sextas - 22h30</p>
+                            <span class="inline-block bg-gray-900 text-white text-xs font-semibold px-4 py-1 rounded-full mt-2">COMPETIÇÃO</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grelha de Jogadores (Cartões) - ID para Atualização via JS -->
+                <div id="plantel-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Cartões dos jogadores serão injetados aqui pelo JavaScript -->
+                </div>
+                
+                <!-- Paginação e Informação de Treino - IDs para Atualização via JS -->
+                <div class="flex flex-col sm:flex-row justify-center items-center mt-12 space-y-6 sm:space-y-0 sm:space-x-8">
+                    
+                    <!-- Botões de Navegação -->
+                    <div class="flex items-center space-x-3">
+                        <button id="prev-button" class="pagination-control p-3 flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        </button>
+                        <span id="page-info" class="text-sm font-semibold text-gray-500">1 / 5</span>
+                        <button id="next-button" class="pagination-control p-3 flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Informação de Treino (Card) -->
+                    <div class="equipa-desc-card p-4 inline-block text-center text-sm font-semibold">
+                        <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">HORÁRIOS</p>
+                        <p id="escalao-horario-bottom" class="text-gray-900">Treinos: Segundas, Quintas e Sextas - 22h30</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+    
+        <!-- SECÇÃO LIGA-TE AO CLUBE (Rodapé superior) -->
+    <section class="bg-page-light py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end">
+
+    <!-- Texto e Título -->
+                <div class="lg:w-2/3 text-center lg:text-left space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-widest text-red-500">LIGA-TE AO CLUBE</p>
+                    <h3 class="text-2xl font-extrabold text-gray-900">
+                        Parceiros e contactos sempre próximos
+                    </h3>
+                    <p class="text-sm text-gray-500 max-w-lg lg:max-w-none">
+                        Conhece as marcas que caminham ao nosso lado e fala com a equipa para apoiar, inscrever ou colaborar com o Clube Futsal de Oeiras.
+                    </p>
+                </div>
+                
+                <!-- Botões -->
+                <div class="flex space-x-4 flex-shrink-0">
+                    <a href="patrocinadores.html" class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full text-sm hover:bg-red-800 transition duration-300" style="margin-right: 175px;">
+                        PATROCINADORES
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECÇÃO 3: FOOTER FINAL -->
+    <footer id="final-footer" class="bg-white border-t border-gray-100 pt-10 pb-4 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-6 lg:space-y-0 pb-6">
+                
+                <!-- Coluna Esquerda: Marca e Slogan -->
+                <div class="text-left">
+                    <h4 class="text-lg font-extrabold text-gray-900 mb-1">Clube Futsal de Oeiras</h4>
+                    <p class="text-sm">No Oeiras Todos Contam</p>
+                    <p class="text-xs text-gray-400">Desde 1997</p>
+                </div>
+
+                <!-- Coluna Central: Links de Navegação -->
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+                    <a href="homepage.html" class="hover:text-gray-900 transition">Início</a>
+                    <a href="equipas.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Equipas</a>
+                    <a href="agenda.html" class="hover:text-gray-900 transition">Agenda</a>
+                    <a href="noticias.html" class="hover:text-gray-900 transition">Notícias</a>
+                    <a href="sobre.html" class="hover:text-gray-900 transition">Sobre Nós</a>
+                    <a href="loja.html" class="hover:text-gray-900 transition">Loja</a>
+                    <a href="patrocinadores.html" class="hover:text-gray-900 transition">Patrocinadores</a>
+                    
+                </div>
+
+                <!-- Coluna Direita: Direitos de Autor -->
+                 <div class="text-sm text-gray-400">
+                    &copy; 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // ----------------------------------------------------------------------
+    // DADOS DO PLANTEL - TODOS OS ESCALÕES (Dados de exemplo para demonstração)
+    // ----------------------------------------------------------------------
+    const CLUB_DATA = {
+        
+        
+        'BENJAMINS': {
+            title: "Benjamins",
+            description: "Idades dos 9-11 anos. Foco na compreensão das regras de jogo e início do trabalho tático.",
+            tecnico: "Tiago Rodrigues",
+            horario: "Quartas e Sábados - 11h00",
+            players: [
+              // Guarda-Redes (com 'numero' em vez de 'camisola')
+{ nome: "Boscardin", idade: 9, numero: 1, posicao: "Guarda-Redes",  foto: "imagens/Equipas/Benjamins/1.png" },
+{ nome: "Lorenzo", idade: 10, numero: 99, posicao: "Guarda-Redes", foto: "imagens/Equipas/Benjamins/2.png" },   
+{ nome: "Afonso Galo", idade: 9, numero: 17, posicao: "Guarda-Redes", foto: "imagens/Equipas/Benjamins/3.png" },
+{ nome: "André Alves", idade: 9, numero: 2, posicao: "Guarda-Redes", foto: "imagens/Equipas/Benjamins/4.png" },
+
+// Fixo
+{ nome: "Gonçalinho", idade: 8, numero: 10, posicao: "Fixo", foto: "imagens/Equipas/Benjamins/5.png" },
+{ nome: "Manuel Ferreira", idade: 9, numero: 15, posicao: "Fixo", foto: "imagens/Equipas/Benjamins/6.png" },
+{ nome: "João Costa", idade: 9, numero: 7, posicao: "Fixo", foto: "imagens/Equipas/Benjamins/7.png" },
+{ nome: "Martim", idade: 9, numero: 8, posicao: "Fixo", foto: "imagens/Equipas/Benjamins/8.png" },
+
+// Ala
+{ nome: "JP", idade: 10, numero: 13, posicao: "Ala", foto: "imagens/Equipas/Benjamins/9.png" },
+{ nome: "Johnny", idade: 9, numero: 19, posicao: "Ala", foto: "imagens/Equipas/Benjamins/10.png" },
+{ nome: "Vicente Rocha", idade: 10, numero: 26, posicao: "Ala", foto: "imagens/Equipas/Benjamins/11.png" },
+{ nome: "Gouveia", idade: 9, numero: 14, posicao: "Ala", foto: "imagens/Equipas/Benjamins/12.png" },
+{ nome: "Didi", idade: 9, numero: 16, posicao: "Ala", foto: "imagens/Equipas/Benjamins/13.png" },
+{ nome: "Artur Spencer", idade: 9, numero: 21, posicao: "Ala", foto: "imagens/Equipas/Benjamins/14.png" },
+{ nome: "Henrique", idade: 9, numero: 22, posicao: "Ala", foto: "imagens/Equipas/Benjamins/15.png" },
+{ nome: "Rocky", idade: 9, numero: 24, posicao: "Ala", foto: "imagens/Equipas/Benjamins/16.png" },
+{ nome: "Dinis Guerreiro", idade: 9, numero: 28, posicao: "Ala", foto: "imagens/Equipas/Benjamins/17.png" },
+{ nome: "Caniggia", idade: 10, numero: 47, posicao: "Ala", foto: "imagens/Equipas/Benjamins/18.png" },
+{ nome: "Santiago", idade: 9, numero: 70, posicao: "Ala", foto: "imagens/Equipas/Benjamins/19.png" },
+{ nome: "Salvador", idade: 9, numero: 75, posicao: "Ala", foto: "imagens/Equipas/Benjamins/20.png" },
+
+// Pivot
+{ nome: "Gafeira", idade: 9, numero: 11, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/21.png" },
+{ nome: "Nilton", idade: 10, numero: 23, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/22.png" },
+{ nome: "Lourenço Carvalho", idade: 10, numero: 3, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/23.png" },
+{ nome: "Leo", idade: 10, numero: 4, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/24.png" },
+{ nome: "Dinis", idade: 10, numero: 87, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/25.png" },
+{ nome: "Duarte", idade: 9, numero: 50, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/26.png" },
+{ nome: "Vicente Pinto", idade: 8, numero: 60, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/27.png" },
+{ nome: "Afonso Pacheco", idade: 9, numero: 9, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/28.png" },
+{ nome: "Giovani", idade: 8, numero: 90, posicao: "Pivot", foto: "imagens/Equipas/Benjamins/29.png" }
+
+            ]
+        },
+        'INFANTIS': {
+            title: "Infantis",
+            description: "Idades dos 11-13 anos. Consolidação técnica, aperfeiçoamento dos fundamentos e desenvolvimento da inteligência de jogo.",
+            tecnico: "Martim Alves",
+            horario: "Segundas e Quintas - 19h00",
+            players: [
+    // Guarda-Redes
+// Guarda-Redes
+{ nome: "Gonçalinho", idade: 12, numero: 1, posicao: "Guarda-Redes", foto: "imagens/Equipas/Infantis/1.png" }, // Identificado como Gonçalo Gomes (GR)
+{ nome: "Afonso", idade: 11, numero: 90, posicao: "Guarda-Redes", foto: "imagens/Equipas/Infantis/2.png" }, // Identificado como Afonso Gamboa (GR)
+{ nome: "Constantin", idade: 11, numero: 27, posicao: "Guarda-Redes", foto: "imagens/Equipas/Infantis/3.png" }, // Identificado como Francisco Barros (GR) no topo da imagem 4
+{ nome: "Miguel Ferreira", idade: 11, numero: 25, posicao: "Guarda-Redes", foto: "imagens/Equipas/Infantis/4.png" },
+
+// Fixo 
+{ nome: "Custódio", idade: 12, numero: 10, posicao: "Fixo / Ala", foto: "imagens/Equipas/Infantis/5.png" }, // Identificado como Afonso Custódio
+{ nome: "Diogo", idade: 11, numero: 15, posicao: "Fixo", foto: "imagens/Equipas/Infantis/6.png" }, // Identificado como Diogo Gonçalves
+{ nome: "Lucas", idade: 11, numero: 17, posicao: "Fixo", foto: "imagens/Equipas/Infantis/7.png" }, // Identificado como Lucas Barros
+{ nome: "João", idade: 12, numero: 20, posicao: "Fixo", foto: "imagens/Equipas/Infantis/8.png" }, // Identificado como João Rosado
+{ nome: "Inês", idade: 12, numero: 14, posicao: "Fixo", foto: "imagens/Equipas/Infantis/22.png" }, // Identificada como Inês Silva
+
+// Fixo / Ala
+{ nome: "Guilherme Cardial", idade: 12, numero: 23, posicao: "Fixo / Ala", foto: "imagens/Equipas/Infantis/9.png" },
+{ nome: "Duarte", idade: 11, numero: 11, posicao: "Fixo / Ala", foto: "imagens/Equipas/Infantis/10.png" }, // Identificado como Duarte Jivraj
+
+// Universal / Ala / Pivot
+{ nome: "Martim Cardial", idade: 12, numero: 8, posicao: "Ala", foto: "imagens/Equipas/Infantis/11.png" },
+{ nome: "Duarte Ribeiro", idade: 12, numero: 9, posicao: "Pivot", foto: "imagens/Equipas/Infantis/12.png" },
+{ nome: "Pedro", idade: 11, numero: 16, posicao: "Ala", foto: "imagens/Equipas/Infantis/13.png" }, // Identificado como Pedro Valente
+{ nome: "Afonso Matos", idade: 12, numero: 29, posicao: "Ala", foto: "imagens/Equipas/Infantis/14.png" },
+{ nome: "Veloso", idade: 12, numero: 2, posicao: "Ala", foto: "imagens/Equipas/Infantis/15.png" }, // Identificado como Vicente Veloso
+
+{ nome: "Vicente Ervidel", idade: 12, numero: 19, posicao: "Ala", foto: "imagens/Equipas/Infantis/16.png" },
+
+// Ala
+{ nome: "Francisco Rosado", idade: 12, numero: 5, posicao: "Ala", foto: "imagens/Equipas/Infantis/17.png" },
+{ nome: "Inês", idade: 12, numero: 21, posicao: "Ala", foto: "imagens/Equipas/Infantis/18.png" }, // Identificada como Inês Borges
+{ nome: "Luca", idade: 12, numero: 71, posicao: "Ala", foto: "imagens/Equipas/Infantis/19.png" }, // Identificado como Luca Lerner (Numero 19)
+
+// Ala / Pivot
+{ nome: "Murilo", idade: 12, numero: 18, posicao: "Ala / Pivot", foto: "imagens/Equipas/Infantis/20.png" }, // Identificado como Murilo Pinto
+{ nome: "Tiago", idade: 11, numero: 7, posicao: "Ala / Pivot", foto: "imagens/Equipas/Infantis/21.png" }, // Identificado como Tiago Clérigo
+
+// Pivot
+
+{ nome: "Enrico Medeiros", idade: 12, numero: 34, posicao: "Pivot", foto: "imagens/Equipas/Infantis/23.png" },
+{ nome: "Gonçalo", idade: 12, numero: 30, posicao: "Pivot", foto: "imagens/Equipas/Infantis/24.png" }, // Identificado como Gonçalo Silva
+{ nome: "João Rosado", idade: 12, numero: 22, posicao: "Pivot", foto: "imagens/Equipas/Infantis/25.png" },
+{ nome: "Filipe", idade: 12, numero: 71, posicao: "Pivot", foto: "imagens/Equipas/Infantis/26.png" } // Identificado como Filipe Costa
+
+]
+        },
+        'INICIADOS': {
+            title: "Iniciados",
+            description: "Idades dos 13-15 anos. Ênfase na preparação física e tática para a competição de alto nível no futsal juvenil.",
+            tecnico: "Rafael Cavaleiro",
+            horario: "Terças, Quintas e Sextas - 20h00",
+            players: [ 
+{ nome: "Enzo Marinho", idade: 14, numero: 1, posicao: "Guarda-Redes", foto: "imagens/Equipas/Iniciados/1.png" },
+{ nome: "Mateus Inácio", idade: 13, numero: 65, posicao: "Guarda-Redes", foto: "imagens/Equipas/Iniciados/2.png" },
+{ nome: "Gabriel Capelo", idade: 14, numero: 79, posicao: "Guarda-Redes", foto: "imagens/Equipas/Iniciados/3.png" },
+{ nome: "Afonso Barroso", idade: 13, numero: 30, posicao: "Guarda-Redes", foto: "imagens/Equipas/Iniciados/4.png" },
+
+// Fixo
+{ nome: "Miguel Cardoso", idade: 14, numero: 20, posicao: "Fixo", foto: "imagens/Equipas/Iniciados/5.png" },
+{ nome: "Diego Reis", idade: 13, numero: 18, posicao: "Fixo", foto: "imagens/Equipas/Iniciados/21.png" },
+
+// Fixo / Ala
+{ nome: "Tomás Fonseca", idade: 14, numero: 18, posicao: "Fixo / Ala", foto: "imagens/Equipas/Iniciados/17.png" },
+{ nome: "Gonçalo Moreira", idade: 14, numero: 11, posicao: "Fixo / Ala", foto: "imagens/Equipas/Iniciados/18.png" },
+
+// Universal
+{ nome: "Manuel Martins", idade: 13, numero: 28, posicao: "Universal", foto: "imagens/Equipas/Iniciados/7.png" },
+{ nome: "Gonçalo Lopes", idade: 14, numero: 10, posicao: "Universal", foto: "imagens/Equipas/Iniciados/8.png" },
+
+// Ala
+{ nome: "Lorenzo Fernandes", idade: 14, numero: 29, posicao: "Ala", foto: "imagens/Equipas/Iniciados/9.png" },
+{ nome: "Simão Nunes", idade: 14, numero: 24, posicao: "Ala", foto: "imagens/Equipas/Iniciados/10.png" },
+{ nome: "Pedro Xavier", idade: 14, numero: 44, posicao: "Ala", foto: "imagens/Equipas/Iniciados/11.png" },
+{ nome: "Bernardo Ishikawa", idade: 14, numero: 19, posicao: "Ala", foto: "imagens/Equipas/Iniciados/12.png" },
+{ nome: "Diogo Silva", idade: 14, numero: 4, posicao: "Ala", foto: "imagens/Equipas/Iniciados/13.png" },
+{ nome: "Diogo Jerónimo", idade: 14, numero: 8, posicao: "Ala", foto: "imagens/Equipas/Iniciados/14.png" },
+{ nome: "Duarte Martins", idade: 14, numero: 6, posicao: "Ala", foto: "imagens/Equipas/Iniciados/15.png" },
+
+
+// Ala / Pivot
+{ nome: "Miguel Guedes", idade: 13, numero: 5, posicao: "Ala / Pivot", foto: "imagens/Equipas/Iniciados/16.png" },
+
+// Pivot
+{ nome: "Guilherme Correia", idade: 14, numero: 89, posicao: "Pivot", foto: "imagens/Equipas/Iniciados/19.png" },
+{ nome: "Santiago Araújo", idade: 14, numero: 9, posicao: "Pivot", foto: "imagens/Equipas/Iniciados/20.png" }
+
+
+]
+        },
+        'JUVENIS': {
+            title: "Juvenis",
+            description: "Idades dos 15-17 anos. Etapa de transição para o futsal de alto rendimento. Foco na especialização posicional.",
+            tecnico: "João Graça",
+            horario: "Segundas, Quartas e Sextas - 21h00",
+            players: [
+ // Guarda-Redes
+{ nome: "Tomás Dias", idade: 16, numero: 99, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juvenis/2.png" },
+{ nome: "Tiago Lourenço", idade: 15, numero: 1, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juvenis/3.png" },
+{ nome: "Gonçalo Santos", idade: 16, numero: 65, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juvenis/4.png" },
+{ nome: "Gonçalo Crispim", idade: 16, numero: 26, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juvenis/5.png" },
+
+// Fixo
+{ nome: "Afonso Maldonado", idade: 16, numero: 19, posicao: "Fixo", foto: "imagens/Equipas/Juvenis/6.png" },
+{ nome: "Nabil Cunha", idade: 16, numero: 3, posicao: "Fixo", foto: "imagens/Equipas/Juvenis/7.png" },
+{ nome: "Duarte Pires", idade: 15, numero: 13, posicao: "Fixo", foto: "imagens/Equipas/Juvenis/8.png" },
+{ nome: "Santiago Marques", idade: 16, numero: 10, posicao: "Fixo", foto: "imagens/Equipas/Juvenis/9.png" },
+{ nome: "Sadú Monteiro", idade: 16, numero: 9, posicao: "Fixo", foto: "imagens/Equipas/Juvenis/14.png" },
+
+// Fixo / Ala
+{ nome: "Santiago Gouveia", idade: 16, numero: 17, posicao: "Fixo / Ala", foto: "imagens/Equipas/Juvenis/10.png" },
+{ nome: "Diogo Magalhães", idade: 16, numero: 2, posicao: "Fixo / Ala", foto: "imagens/Equipas/Juvenis/11.png" },
+
+// Ala
+{ nome: "Salvador Miranda", idade: 15, numero: 7, posicao: "Ala", foto: "imagens/Equipas/Juvenis/18.png" },
+{ nome: "Max Lopes", idade: 15, numero: 12, posicao: "Ala", foto: "imagens/Equipas/Juvenis/28.png" },
+{ nome: "Henrique Galo", idade: 16, numero: 22, posicao: "Ala", foto: "imagens/Equipas/Juvenis/19.png" },
+{ nome: "Alexandre Santos", idade: 16, numero: 27, posicao: "Ala", foto: "imagens/Equipas/Juvenis/12.png" },
+{ nome: "Daniel Leitão", idade: 16, numero: 24, posicao: "Ala", foto: "imagens/Equipas/Juvenis/26.png" },
+{ nome: "Francisco Santos", idade: 15, numero: 5, posicao: "Ala", foto: "imagens/Equipas/Juvenis/20.png" },
+{ nome: "Salvador Beça", idade: 15, numero: 6, posicao: "Ala", foto: "imagens/Equipas/Juvenis/21.png" },
+{ nome: "Gabriel Caria", idade: 16, numero: 4, posicao: "Ala", foto: "imagens/Equipas/Juvenis/16.png" },
+{ nome: "Lucas Marques", idade: 16, numero: 95, posicao: "Ala", foto: "imagens/Equipas/Juvenis/17.png" },
+{ nome: "Rodrigo Silva", idade: 16, numero: 18, posicao: "Ala", foto: "imagens/Equipas/Juvenis/22.png" },
+{ nome: "Gabriel Rosa", idade: 15, numero: 31, posicao: "Ala", foto: "imagens/Equipas/Juvenis/23.png" },
+{ nome: "Lucas Simplício", idade: 15, numero: 21, posicao: "Ala", foto: "imagens/Equipas/Juvenis/24.png" },
+
+// Pivot
+{ nome: "Rodrigo Pires", idade: 16, numero: 16, posicao: "Pivot", foto: "imagens/Equipas/Juvenis/25.png" },
+{ nome: "Duarte Silva", idade: 15, numero: 75, posicao: "Pivot", foto: "imagens/Equipas/Juvenis/27.png" },
+{ nome: "Gustavo Miranda", idade: 14, numero: 30, posicao: "Pivot", foto: "imagens/Equipas/Juvenis/15.png" },
+{ nome: "Martim Silva", idade: 16, numero: 77, posicao: "Pivot", foto: "imagens/Equipas/Juvenis/13.png" }
+
+
+ ]
+        },
+        'JUNIORES': {
+            title: "Juniores",
+            description: "Idades dos 17-19 anos. Última fase antes da equipa sénior. Treinos intensivos de tática avançada e alto nível competitivo.",
+            tecnico: "Edgar Rodrigues",
+            horario: "Terças, Quintas e Sextas - 21h30",
+            players: [
+                // Guarda-Redes
+{ nome: "Celso Dias", idade: 18, numero: 2, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juniores/1.png" },
+{ nome: "Samuel Henriques", idade: 18, numero: 99, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juniores/2.png" },
+{ nome: "Filipe Ferreira", idade: 17, numero: 1, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juniores/3.png" },
+{ nome: "Filipe Galo", idade: 17, numero: 18, posicao: "Guarda-Redes", foto: "imagens/Equipas/Juniores/4.png" },
+
+// Fixo
+{ nome: "Tomás Gonçalves", idade: 18, numero: 21, posicao: "Fixo", foto: "imagens/Equipas/Juniores/5.png" },
+{ nome: "André Aguiar", idade: 17, numero: 13, posicao: "Fixo", foto: "imagens/Equipas/Juniores/6.png" },
+{ nome: "Eduardo Pereira", idade: 18, numero: 17, posicao: "Fixo", foto: "imagens/Equipas/Juniores/7.png" },
+{ nome: "Tiago Ferreira", idade: 17, numero: 20, posicao: "Fixo", foto: "imagens/Equipas/Juniores/8.png" },
+
+// Fixo / Ala
+{ nome: "Guilherme Porta", idade: 18, numero: 77, posicao: "Fixo / Ala", foto: "imagens/Equipas/Juniores/9.png" },
+{ nome: "Simão Fiúza", idade: 17, numero: 14, posicao: "Fixo / Ala", foto: "imagens/Equipas/Juniores/10.png" },
+{ nome: "Tomas Figueiredo", idade: 17, numero: 16, posicao: "Fixo / Ala", foto: "imagens/Equipas/Juniores/11.png" },
+{ nome: "Tomás Amiguinho", idade: 17, numero: 56, posicao: "Fixo / Ala", foto: "imagens/Equipas/Juniores/12.png" },
+{ nome: "Simão Mendonça", idade: 16, numero: 9, posicao: "Fixo / Ala", foto: "imagens/Equipas/Juniores/13.png" },
+
+// Ala
+{ nome: "Edson Gonçalves", idade: 17, numero: 11, posicao: "Ala", foto: "imagens/Equipas/Juniores/14.png" },
+{ nome: "Ricardo Silva", idade: 18, numero: 22, posicao: "Ala", foto: "imagens/Equipas/Juniores/15.png" },
+{ nome: "Afonso Cardoso", idade: 18, numero: 29, posicao: "Ala", foto: "imagens/Equipas/Juniores/16.png" },
+{ nome: "Tomás Alves", idade: 17, numero: 3, posicao: "Ala", foto: "imagens/Equipas/Juniores/17.png" },
+{ nome: "Filipe Faneca", idade: 17, numero: 6, posicao: "Ala", foto: "imagens/Equipas/Juniores/18.png" },
+{ nome: "Francisco Lança", idade: 17, numero: 16, posicao: "Ala", foto: "imagens/Equipas/Juniores/19.png" },
+{ nome: "Kevi Tavares", idade: 17, numero: 27, posicao: "Ala", foto: "imagens/Equipas/Juniores/20.png" },
+// Ala / Pivot
+{ nome: "João Semedo", idade: 16, numero: 26, posicao: "Ala / Pivot", foto: "imagens/Equipas/Juniores/21.png" },
+{ nome: "Rafael Ferreira", idade: 17, numero: 19, posicao: "Ala / Pivot", foto: "imagens/Equipas/Juniores/22.png" },
+{ nome: "Wagner Silva", idade: 17, numero: 30, posicao: "Ala / Pivot", foto: "imagens/Equipas/Juniores/23.png" },
+{ nome: "Alexandre Ribeiro", idade: 17, numero: 31, posicao: "Ala / Pivot", foto: "imagens/Equipas/Juniores/24.png" },
+
+// Pivot
+{ nome: "Renan Souza", idade: 18, numero: 5, posicao: "Pivot", foto: "imagens/Equipas/Juniores/25.png" },
+{ nome: "Miguel Gameiro", idade: 17, numero: 23, posicao: "Pivot", foto: "imagens/Equipas/Juniores/26.png" },
+{ nome: "André Simões", idade: 17, numero: 7, posicao: "Pivot", foto: "imagens/Equipas/Juniores/27.png" },
+{ nome: "Micael Mendes", idade: 17, numero: 71, posicao: "Pivot", foto: "imagens/Equipas/Juniores/28.png" },
+            ]
+        },
+        'SENIORES': {
+            title: "Seniores",
+            description: "Equipa focada na vertente competitiva, representando o clube nas principais competições regionais e nacionais.",
+            tecnico: "Nuno Mendes",
+            horario: "Segundas, Quintas e Sextas - 22h30",
+            players: [
+        { nome: "Rodrigo Costa", idade: 20, numero: 1, posicao: "Guarda-Redes", foto: "imagens/Equipas/1.png" },  
+{ nome: "Francisco Pereira", idade: 23, numero: 28, posicao: "Guarda-Redes", foto: "imagens/Equipas/2.png" },
+{ nome: "Doka", idade: 24, numero: 28, posicao: "Guarda-Redes", foto: "imagens/Equipas/3.png" },
+{ nome: "Miguel Rocha", idade: 24, numero: 10, posicao: "Fixo", foto: "imagens/Equipas/4.png" },
+{ nome: "Eduardo Pereira", idade: 18, numero: 17, posicao: "Fixo", foto: "imagens/Equipas/5.png" },
+{ nome: "Sassu", idade: 23, numero: 8, posicao: "Ala", foto: "imagens/Equipas/6.png" },
+{ nome: "Bernardo Monteiro", idade: 29, numero: 96, posicao: "Fixo / Ala", foto: "imagens/Equipas/7.png" },
+{ nome: "Tiago Tavares", idade: 23, numero: 14, posicao: "Fixo / Ala", foto: "imagens/Equipas/8.png" },
+{ nome: "Lewis Mancoba", idade: 21, numero: 18, posicao: "Ala", foto: "imagens/Equipas/9.png" },
+{ nome: "Afonso Gouveia", idade: 22, numero: 13, posicao: "Universal", foto: "imagens/Equipas/10.png" },
+{ nome: "Ricardo Grilo", idade: 27, numero: 19, posicao: "Ala", foto: "imagens/Equipas/11.png" },
+{ nome: "André Tavares", idade: 24, numero: 5, posicao: "Ala", foto: "imagens/Equipas/12.png" },
+{ nome: "João Rocha", idade: 24, numero: 11, posicao: "Ala", foto: "imagens/Equipas/13.png" },
+{ nome: "Carlos Morais", idade: 20, numero: 6, posicao: "Ala", foto: "imagens/Equipas/14.png" },
+{ nome: "Gonçalo Pereira", idade: 22, numero: 7, posicao: "Ala", foto: "imagens/Equipas/15.png" },
+{ nome: "João Azevedo", idade: 21, numero: 75, posicao: "Ala", foto: "imagens/Equipas/16.png" },
+{ nome: "João Guimarães", idade: 21, numero: 2, posicao: "Pivot", foto: "imagens/Equipas/17.png" },
+{ nome: "Rafael Cavaleiro", idade: 27, numero: 9, posicao: "Pivot", foto: "imagens/Equipas/18.png" },
+            ]
+        },
+    };
+
+    // ----------------------------------------------------------------------
+    // LÓGICA DE PAGINAÇÃO E CARREGAMENTO
+    // ----------------------------------------------------------------------
+    const ATLETAS_POR_PAGINA = 4;
+    let currentPage = 1;
+    let currentPlantel = [];
+    let totalPages = 0;
+    let activeEscalao = 'SENIORES'; // Escalão inicial
+
+    // Elementos do DOM
+    const gridElement = document.getElementById('plantel-grid');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    const pageInfoElement = document.getElementById('page-info');
+    const escalaoButtons = document.querySelectorAll('.escalao-button');
+    const titleElement = document.getElementById('escalao-title');
+    const descriptionElement = document.getElementById('escalao-description');
+    const tecnicoElement = document.getElementById('escalao-tecnico');
+    const horarioTopElement = document.getElementById('escalao-horario-top');
+    const horarioBottomElement = document.getElementById('escalao-horario-bottom');
+
+
+    /**
+     * Gera o HTML para o cartão de um único jogador.
+     * @param {Object} jogador - Objeto com os dados do jogador.
+     * @returns {string} HTML do cartão.
+     */
+    function createPlayerCardHTML(jogador) {
+        // Criar uma imagem placeholder genérica com o primeiro nome
+        const placeholderName = jogador.nome.split(' ')[0] || "CF O";
+        // Escolher cores diferentes para o placeholder dependendo do escalão (simulação)
+        let colorCode = 'D9D0C5'; // Base
+        if (jogador.idade < 12) { colorCode = 'C2D4E1'; } // Jovem (Azul Claro)
+        else if (jogador.idade < 18) { colorCode = 'D0C5D9'; } // Formação (Roxo Claro)
+        else { colorCode = 'F0E3D1'; } // Senior (Amarelo Claro)
+        
+        const placeholderURL = `https://placehold.co/400x400/${colorCode}/333333?text=${placeholderName}`;
+        
+        return `
+            <div class="jogador-card p-4 pb-6 text-center">
+                <img src="${jogador.foto}" alt="${jogador.nome}" class="w-full h-auto rounded-lg object-cover mb-4 aspect-square">
+                
+                <p class="text-xs font-semibold uppercase text-gray-500 mb-1">${activeEscalao} · N.º ${jogador.numero}</p>
+                <h4 class="text-lg font-extrabold mb-1">${jogador.nome}</h4>
+                <p class="text-sm font-medium text-gray-400 uppercase">${jogador.posicao}</p>
+                <p class="text-sm text-gray-500 mb-4">${jogador.idade} ANOS</p>
+                
+                
+            </div>
+        `;
+    }
+
+    /**
+     * Renderiza o subconjunto de jogadores para a página atual.
+     */
+    function renderPlayers() {
+        // Garantir que temos dados
+        if (currentPlantel.length === 0) {
+            gridElement.innerHTML = '<p class="text-center col-span-full py-10 text-gray-500">Plantel não definido para este escalão.</p>';
+            updatePaginationUI();
+            return;
+        }
+
+        // Calcular o índice inicial e final para a página atual
+        const startIndex = (currentPage - 1) * ATLETAS_POR_PAGINA;
+        const endIndex = startIndex + ATLETAS_POR_PAGINA;
+        
+        // Obter os jogadores para esta página
+        const playersToShow = currentPlantel.slice(startIndex, endIndex);
+
+        // Limpar a grelha e adicionar os novos cartões
+        gridElement.innerHTML = playersToShow.map(createPlayerCardHTML).join('');
+        
+        // Atualizar informações da paginação e estado dos botões
+        updatePaginationUI();
+    }
+
+    /**
+     * Atualiza o número da página e o estado dos botões (habilitado/desabilitado).
+     */
+    function updatePaginationUI() {
+        // Recalcular totalPages após carregar novo escalão
+        totalPages = Math.ceil(currentPlantel.length / ATLETAS_POR_PAGINA);
+
+        // Se a página atual exceder o total de páginas após a remoção (o que não deve acontecer com currentPage=1), corrigir
+        if (currentPage > totalPages && totalPages > 0) {
+             currentPage = totalPages;
+        } else if (totalPages === 0) {
+            currentPage = 0; // Se não houver jogadores, página 0
+        } else if (currentPage === 0) {
+            currentPage = 1; // Se houver jogadores, a primeira página é 1
+        }
+
+
+        // Atualizar texto
+        pageInfoElement.textContent = `${currentPage} / ${totalPages}`;
+        
+        // Desabilitar/Habilitar botões
+        const disableButtons = totalPages <= 1;
+        prevButton.disabled = currentPage === 1 || disableButtons;
+        nextButton.disabled = currentPage === totalPages || disableButtons;
+
+        // Estilização condicional
+        if (currentPage === 1 || disableButtons) {
+            prevButton.classList.remove('pagination-active');
+        } else {
+            prevButton.classList.add('pagination-active');
+        }
+
+        if (currentPage === totalPages || disableButtons) {
+            nextButton.classList.remove('pagination-active');
+        } else {
+            nextButton.classList.add('pagination-active');
+        }
+    }
+
+    /**
+     * Carrega e exibe os dados para um escalão específico.
+     * @param {string} escalao - Nome do escalão (ex: 'SENIORES').
+     */
+    function loadEscalao(escalao) {
+        const data = CLUB_DATA[escalao];
+        
+        if (!data) {
+            console.error(`Dados não encontrados para o escalão: ${escalao}`);
+            return;
+        }
+
+        // 1. Atualizar o estado global
+        activeEscalao = escalao;
+        currentPlantel = data.players;
+        currentPage = 1;
+
+        // 2. Atualizar UI da Navegação
+        escalaoButtons.forEach(button => {
+            button.classList.remove('escalao-active');
+            if (button.dataset.escalao === escalao) {
+                button.classList.add('escalao-active');
+            }
+        });
+
+        // 3. Atualizar UI da Descrição
+        titleElement.textContent = data.title;
+        descriptionElement.textContent = data.description;
+        tecnicoElement.textContent = data.tecnico;
+        horarioTopElement.textContent = data.horario;
+        horarioBottomElement.textContent = `Treinos: ${data.horario}`;
+
+        // 4. Renderizar o novo plantel
+        renderPlayers();
+    }
+
+    // ----------------------------------------------------------------------
+    // GESTORES DE EVENTOS
+    // ----------------------------------------------------------------------
+    
+    // Paginação Anterior
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderPlayers();
+            /*// Scroll para o topo da grelha ao mudar de página
+            gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });*/
+        }
+    });
+
+    // Paginação Próxima
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderPlayers();
+           /* // Scroll para o topo da grelha ao mudar de página
+            gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });*/
+        }
+    });
+
+    // Navegação por Escalão
+    escalaoButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const escalao = button.dataset.escalao;
+            if (escalao) {
+                loadEscalao(escalao);
+            }
+        });
+    });
+
+    // Iniciar a renderização quando o DOM estiver carregado (Carrega Seniores por defeito)
+    document.addEventListener('DOMContentLoaded', () => {
+        // Carrega o escalão SENIORES no início
+        loadEscalao(activeEscalao);
+    });
+
+</script>
+</body>
+</html>

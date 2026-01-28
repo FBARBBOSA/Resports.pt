@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patrocínios - CFO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Secção Hero com suporte para imagem de fundo */
+        .hero-section {
+            position: relative;
+            background-image: url('imagens/fundo/Final.png'); /* Altera aqui o caminho da tua imagem */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        /* Camada escura para o texto não se perder na imagem */
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.4));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .benefit-card {
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 pt-20">
+
+   <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto p-4 flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-3 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="imagens/fundo/transferir.png" alt="CF Oeiras Logo" class="w-12 h-12 object-contain">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-gray-900">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex justify-center space-x-8 xl:space-x-12 text-base font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-red-500 transition duration-300">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-gray-500 transition duration-300 ">Equipas</a>
+                <a href="agenda.html" class="hover:text-red-500 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-red-500 transition duration-300">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-red-500 transition duration-300">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-red-500 transition duration-300">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Patrocinadores</a>
+            </div>
+
+            <!-- Botão de Ação Principal -->
+            <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                JUNTA-TE AO CLUBE
+            </a> 
+            
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION COM IMAGEM -->
+    <section class="hero-section px-4">
+        <div class="hero-overlay"></div>
+        <div class="max-w-7xl mx-auto hero-content w-full">
+            <div class="max-w-3xl">
+                <span class="text-red-500 font-bold tracking-[0.3em] uppercase text-sm mb-4 block">Parcerias de Sucesso</span>
+                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight drop-shadow-md">
+                    Cresça com o <br><span class="text-white">Futsal de Oeiras</span>
+                </h1>
+                <p class="text-gray-200 text-lg mb-10 leading-relaxed max-w-2xl">
+                    Una a sua marca a um clube que valoriza a formação, a disciplina e a comunidade. Juntos, elevamos o nome de Oeiras e do desporto nacional.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="nosso.html" class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all shadow-lg active:scale-95">
+                         Parceiros Ativos
+                        <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORQUÊ O CFO? -->
+    <section class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-black text-gray-900 mb-4">Porquê apoiar o CFO?</h2>
+            <div class="h-1.5 w-20 bg-red-600 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="benefit-card bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                <div class="w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-6">
+                    <i data-lucide="trending-up" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4">Visibilidade</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Exposição em equipamentos, pavilhões, redes sociais e transmissões de jogos para milhares de adeptos e famílias.
+                </p>
+            </div>
+
+            <div class="benefit-card bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                <div class="w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-6">
+                    <i data-lucide="users" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4">Responsabilidade Social</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Apoie a formação de jovens atletas e projetos de inclusão social através do desporto em Oeiras.
+                </p>
+            </div>
+
+            <div class="benefit-card bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                <div class="w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-6">
+                    <i data-lucide="handshake" class="w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4">Networking</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Aceda a eventos exclusivos para parceiros e conecte-se com outras empresas da região e do setor desportivo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULÁRIO DE CONTACTO -->
+    <section id="contacto" class="py-24 px-4 bg-white">
+        <div class="max-w-5xl mx-auto bg-gray-50 rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row border border-gray-100">
+            <!-- Informação de Contacto -->
+            <div class="bg-gray-900 text-white p-12 md:w-2/5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-3xl font-bold mb-6">Vamos Conversar?</h3>
+                    <p class="text-gray-400 mb-10">Preencha o formulário e a nossa equipa de marketing entrará em contacto para apresentar as nossas propostas de patrocínio.</p>
+                    
+                    <ul class="space-y-6">
+                        <li class="flex items-start gap-4">
+                            <i data-lucide="mail" class="text-red-500 w-6 h-6"></i>
+                            <div>
+                                <p class="text-sm font-bold uppercase text-gray-500">Email</p>
+                                <p class="text-white font-medium text-sm">clubefutsaldeoeiras@gmail.com</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i data-lucide="map-pin" class="text-red-500 w-6 h-6"></i>
+                            <div>
+                                <p class="text-sm font-bold uppercase text-gray-500">Sede</p>
+                                <p class="text-white font-medium text-sm">Av. Infante Dom Henrique 14, Oeiras, Portugal</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                
+            </div>
+
+            <!-- Formulário -->
+            <div class="p-12 md:w-3/5 bg-white">
+                <form id="sponsorForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Empresa</label>
+                            <input type="text" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Responsável</label>
+                            <input type="text" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Email Corporativo</label>
+                        <input type="email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Interesse</label>
+                        <select class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition appearance-none">
+                            <option>Patrocínio Principal</option>
+                            <option>Apoio à Formação</option>
+                            <option>Publicidade no Pavilhão</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Mensagem</label>
+                        <textarea rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 active:scale-95">
+                        Enviar Proposta
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                    <p id="successMsg" class="hidden text-green-600 text-sm font-bold text-center">Mensagem enviada com sucesso!</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+     <!-- SECÇÃO 3: FOOTER FINAL -->
+    <footer id="final-footer" class="bg-white border-t border-gray-100 pt-10 pb-4 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-6 lg:space-y-0 pb-6">
+                
+                <!-- Coluna Esquerda: Marca e Slogan -->
+                <div class="text-left">
+                    <h4 class="text-lg font-extrabold text-gray-900 mb-1">Clube Futsal de Oeiras</h4>
+                    <p class="text-sm">No Oeiras Todos Contam</p>
+                    <p class="text-xs text-gray-400">Desde 1997</p>
+                </div>
+
+                <!-- Coluna Central: Links de Navegação -->
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+                    <a href="homepage.html" class="hover:text-gray-900 transition">Início</a>
+                    <a href="equipas.html" class="hover:hover:text-gray-900 transition">Equipas</a>
+                    <a href="agenda.html" class="hover:text-gray-900 transition">Agenda</a>
+                    <a href="noticias.html" class="hover:text-gray-900 transition">Notícias</a>
+                    <a href="sobre.html" class="hover:text-gray-900 transition">Sobre Nós</a>
+                    <a href="loja.html" class="hover:text-gray-900 transition">Loja</a>
+                    <a href="patrocinadores.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Patrocinadores</a>
+                    
+                </div>
+
+                <!-- Coluna Direita: Direitos de Autor -->
+                 <div class="text-sm text-gray-400">
+                    &copy; 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+   
+
+    <script>
+        document.getElementById('sponsorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const success = document.getElementById('successMsg');
+            btn.innerHTML = 'Enviando...';
+            btn.disabled = true;
+            setTimeout(() => {
+                this.reset();
+                btn.classList.add('hidden');
+                success.classList.remove('hidden');
+            }, 1500);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palmarés - Clube Futsal de Oeiras</title>
+    <!-- Carregar Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Definição de Cores e Fontes */
+        :root {
+            --color-bg-light: #f9f7f4; /* Fundo Creme/Bege */
+            --color-text-dark: #1f2937; /* Texto Escuro */
+            --color-primary-black: #000000;
+            --color-primary-green: #e1e3de; /* Cor de acento/tag - verde claro */
+            --color-card-bg: #ffffff; /* Fundo dos cartões */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-bg-light); /* Fundo Creme da imagem */
+            /* Padding superior para compensar a nav-bar fixa */
+            padding-top: 5rem; 
+            color: var(--color-primary-text);
+        }
+
+        /* Classe para o Header Fixo (Adaptação para o estilo claro) */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-card-bg); /* Fundo branco/claro */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+            z-index: 50; 
+            height: 5rem; 
+        }
+        /* O fundo da página é o tom creme */
+        .bg-page-light {
+            background-color: var(--color-bg-light);
+        }
+
+        /* Card de Título (Conquista) */
+        .trophy-card {
+            background-color: var(--color-card-bg); /* Branco puro */
+            border-radius: 1.5rem; /* Cantos arredondados grandes */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+            padding: 2rem; 
+            height: 100%; 
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .trophy-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para a tag principal de secção */
+        .tag-section-main {
+            background-color: var(--color-primary-green);
+            color: var(--color-text-dark);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.875rem; /* sm */
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        /* Botão principal (Preto) */
+        .btn-primary {
+            background-color: var(--color-primary-black);
+            color: white;
+            transition: all 0.2s;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+        
+        /* Estilo para o ano (acima do título) */
+        .trophy-year {
+            font-size: 0.75rem; /* xs */
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="antialiased bg-page-light">
+
+    <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto p-4 flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-4 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-gray-900">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex flex-grow justify-center space-x-6 xl:space-x-10 text-sm font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-gray-600 transition duration-300">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-gray-600 transition duration-300">Equipas</a>
+                <a href="agenda.html" class="hover:text-gray-600 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-gray-600 transition duration-300">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-gray-600 transition duration-300">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-gray-600 transition duration-300">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-red-500 transition duration-300">Patrocinadores</a>
+
+            </div>
+
+            <!-- Botão de Ação Principal -->
+            <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                JUNTA-TE AO CLUBE
+            </a> 
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- SECÇÃO PRINCIPAL DE PALMARÉS -->
+    <main class="min-h-screen py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Content Wrapper (O grande card que envolve o conteúdo) -->
+            <div class="max-w-6xl mx-auto bg-white rounded-[2rem] p-8 sm:p-12 shadow-xl">
+                
+                <!-- Título e Descrição (Conforme o print) -->
+                <div class="text-center mb-10">
+                    <span class="tag-section-main inline-block mb-3">HISTÓRIA VITORIOSA</span>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">Palmarés</h1>
+                    <p class="max-w-xl mx-auto text-gray-600 text-lg">Anos de trabalho, títulos e conquistas que definem a identidade vencedora do Clube Futsal de Oeiras.</p>
+                </div>
+                
+                <!-- Grelha de Títulos (Palmarés) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                    
+                    <!-- Card 1: 2025 (Conforme o print) -->
+                    <div class="trophy-card">
+                        <div>
+                            <p class="trophy-year">2025</p>
+                            <h2 class="text-2xl font-extrabold mb-3 leading-tight">AF Lisboa Juniores A Futsal 1ª Divisão Honra</h2>
+                            <p class="text-gray-600 text-sm">Título distrital conquistado com domínio ofensivo e defesa sólida.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: 2024 (Conforme o print) -->
+                    <div class="trophy-card">
+                        <div>
+                            <p class="trophy-year">2024</p>
+                            <h2 class="text-2xl font-extrabold mb-3 leading-tight">AF Lisboa Juniores A Futsal 2ª Divisão</h2>
+                            <p class="text-gray-600 text-sm">Campanha vitoriosa que carimbou a subida à divisão de honra.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 3: 2022/23 2016/17 (Conforme o print) -->
+                    <div class="trophy-card">
+                        <div>
+                            <!-- A descrição no print é "2022/23 2016/17" mas a barra vertical é mais comum para separação. Mantenho a original para o layout. -->
+                            <p class="trophy-year">2022 / 23 | 2016 / 17</p>
+                            <h2 class="text-2xl font-extrabold mb-3 leading-tight">2-AF Lisboa Juniores A Futsal 3ª Divisão</h2>
+                            <p class="text-gray-600 text-sm">Temporada perfeita com a equipa a conquistar todos os jogos decisivos.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 4: 2022 (Aparece no início da 2ª linha no print) -->
+                    <div class="trophy-card">
+                        <div>
+                            <p class="trophy-year">2022</p>
+                            <h2 class="text-2xl font-extrabold mb-3 leading-tight">Taça Nacional Sub-17</h2>
+                            <!-- Manter uma descrição para preencher o card, já que não estava visível no print -->
+                            <p class="text-gray-600 text-sm">Um marco histórico para a formação do clube, elevando o nome de Oeiras a nível nacional.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: 2022 (Aparece no início da 2ª linha no print) -->
+                    <div class="trophy-card">
+                        <div>
+                            <h2 class="text-2xl font-extrabold mb-3 leading-tight">7 vezes campeão de série  nos escalões de formação</h2>
+                            <!-- Manter uma descrição para preencher o card, já que não estava visível no print -->
+                            <p class="text-gray-600 text-sm">Campeões de Série na AF Lisboa 7 vezes nos escalões de formação</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 6: 2022 (Aparece no início da 2ª linha no print) -->
+                    <div class="trophy-card">
+                        <div>
+                            <h2 class="text-2xl font-extrabold mb-3 leading-tight">Top 4 Nacional com mais atletas inscritos na FPF</h2>
+                            <!-- Manter uma descrição para preencher o card, já que não estava visível no print -->
+                            <p class="text-gray-600 text-sm">Quarta equipa a nível Nacional com mais ateltas de formação inscitos na FPF</p>
+                        </div>
+                    </div>
+
+                    <!-- Os cards 5 e 6 não estão visíveis no print, por isso não os incluímos para ser fiel à imagem. -->
+                </div>
+
+                <!-- O botão "VER MAIS TÍTULOS" não está presente no print, pelo que foi removido. -->
+            </div>
+
+        </div>
+    </main>
+    <!-- SECÇÃO LIGA-TE AO CLUBE (Rodapé superior) -->
+    <section class="bg-page-light py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end">
+
+    <!-- Texto e Título -->
+                <div class="lg:w-2/3 text-center lg:text-left space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-widest text-red-500">LIGA-TE AO CLUBE</p>
+                    <h3 class="text-2xl font-extrabold text-gray-900">
+                        Parceiros e contactos sempre próximos
+                    </h3>
+                    <p class="text-sm text-gray-500 max-w-lg lg:max-w-none">
+                        Conhece as marcas que caminham ao nosso lado e fala com a equipa para apoiar, inscrever ou colaborar com o Clube Futsal de Oeiras.
+                    </p>
+                </div>
+                
+                <!-- Botões -->
+                <div class="flex space-x-4 flex-shrink-0">
+                    <button class="bg-transparent border border-gray-300 text-gray-900 font-bold py-3 px-6 rounded-full text-sm hover:bg-gray-100 transition duration-300">
+                        PATROCINADORES
+                    </button>
+                    <button class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full text-sm hover:bg-gray-700 transition duration-300 shadow-lg">
+                        CONTACTOS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECÇÃO 3: FOOTER FINAL -->
+    <footer id="final-footer" class="bg-white border-t border-gray-100 pt-10 pb-4 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-6 lg:space-y-0 pb-6">
+                
+                <!-- Coluna Esquerda: Marca e Slogan -->
+                <div class="text-left">
+                    <h4 class="text-lg font-extrabold text-gray-900 mb-1">Clube Futsal de Oeiras</h4>
+                    <p class="text-sm">No Oeiras Todos Contam</p>
+                    <p class="text-xs text-gray-400">Desde 1997</p>
+                </div>
+
+                <!-- Coluna Central: Links de Navegação -->
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+                    <a href="homepage.html" class="hover:text-gray-900 transition">Início</a>
+                    <a href="equipas.html" class="hover:text-gray-900 transition">Equipas</a>
+                    <a href="agenda.html" class="hover:text-gray-900 transition">Agenda</a>
+                    <a href="noticias.html" class="hover:text-gray-900 transition">Notícias</a>
+                    <a href="sobre.html" class="hover:text-gray-900 transition">Sobre Nós</a>
+                    <a href="loja1.html" class="hover:text-gray-900 transition">Loja</a>
+                    <a href="#" class="hover:text-gray-900 transition">Patrocinadores</a>
+                    <a href="#" class="hover:text-gray-900 transition">Contactos</a>
+                </div>
+
+                <!-- Coluna Direita: Direitos de Autor -->
+                 <div class="text-sm text-gray-400">
+                    &copy; 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

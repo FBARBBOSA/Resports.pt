@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - Clube Futsal de Oeiras</title>
+    <!-- Carregar Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Definição de Cores e Fontes (Consistente com as outras páginas) */
+        :root {
+            --color-bg-light: #f9f7f4; /* Fundo Creme/Bege */
+            --color-text-dark: #1f2937; /* Texto Escuro */
+            --color-primary-black: #000000;
+            --color-primary-green: #e1e3de; /* Cor de acento/tag - verde claro */
+            --color-card-bg: #ffffff; /* Fundo dos cartões/container principal */
+            --color-button-dark: #1a1a1a; /* Preto mais suave para botões */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-bg-light); /* Fundo Creme da imagem */
+            /* Padding superior para compensar a nav-bar fixa */
+            padding-top: 5rem; 
+            color: var(--color-primary-text);
+        }
+
+        /* Classe para o Header Fixo (Adaptação para o estilo claro) */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-card-bg); /* Fundo branco/claro */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+            z-index: 50; 
+            height: 5rem; 
+        }
+
+        /* Container principal com cantos arredondados grandes e sombra */
+        .main-content-container {
+            background-color: var(--color-card-bg); /* Branco puro */
+            border-radius: 2rem; /* Cantos arredondados grandes */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.02);
+            padding: 4rem 2rem; /* Aumentei o padding para dar mais espaço */
+        }
+
+        /* Estilo para a tag principal de secção */
+        .tag-section-main {
+            background-color: var(--color-primary-green);
+            color: var(--color-text-dark);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.875rem; /* sm */
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Estilo para o cartão de estatística */
+        .stats-card {
+            background-color: var(--color-card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 100%; /* Garantir que ocupam o mesmo espaço */
+        }
+
+        /* Estilo do diagrama (lado direito) - Simulação do layout gráfico */
+        .diagram-container {
+            /* Simulação do fundo claro para o gráfico */
+            background-color: #f7f7f7; 
+            border-radius: 1.5rem;
+            height: 100%;
+            min-height: 400px; /* Altura mínima para visualização */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            /* Adicionar um padrão simples para simular o esboço gráfico */
+            background-image: repeating-linear-gradient(45deg, #e0e0e0 2px, transparent 2px, transparent 5px);
+            background-size: 20px 20px;
+        }
+
+        /* Texto dentro do diagrama - simular o esboço */
+        .diagram-text {
+            color: #b0b0b0;
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        img{
+            border-radius: 40px;
+        }
+
+
+    </style>
+</head>
+<body class="antialiased bg-page-light">
+
+    <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto p-4 flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-3 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="imagens/fundo/transferir.png" alt="CF Oeiras Logo" class="w-12 h-12 object-contain">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-gray-900">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex justify-center space-x-8 xl:space-x-12 text-base font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-red-500 transition duration-300">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-red-500 transition duration-30">Equipas</a>
+                <a href="agenda.html" class="hover:text-red-500 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-red-500 transition duration-300">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-red-500 transition duration-300">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-red-500 transition duration-300">Patrocinadores</a>
+            </div>
+
+            <!-- Botão de Ação Principal -->
+            <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                JUNTA-TE AO CLUBE
+            </a> 
+            
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- SECÇÃO PRINCIPAL SOBRE NÓS -->
+    <main class="min-h-screen py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Content Wrapper -->
+            <div class="main-content-container max-w-7xl mx-auto">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    
+                    <!-- LADO ESQUERDO: Texto e Estatísticas -->
+                    <div>
+                        <span class="tag-section-main inline-block mb-3">IDENTIDADE DO CLUBE</span>
+                        <h1 class="text-4xl sm:text-5xl font-extrabold mb-6">Sobre Nós</h1>
+                        
+                        <!-- Parágrafo introdutório (em destaque no screenshot) -->
+                        <p class="text-lg font-medium mb-6">
+                            Clube fundado por apaixonados pela modalidade na década de 90
+                            e que cresceu com a comunidade de Oeiras.
+                        </p>
+                        
+                        <!-- Corpo do Texto -->
+                        <div class="space-y-4 text-gray-700 text-base">
+                            <p>
+                                Esta é uma história de dedicação, de força de vontade e da perseguição de um sonho.
+                                 O Clube Futsal de Oeiras nasceu fruto da alegria e relação dos seus atletas e treinadores, entre eles, 
+                                 e para com o Clube. A nossa força é a união entre todos. É a capacidade de olharmos uns para os outros 
+                                 e vermo-nos a nós próprios. Somos uma unidade. Dos mais pequeninos aos mais velhos, sabemos 
+                                 o que realmente é importante. E nada nem ninguém nos tirará esta força e este amor por algo que está
+                                  dentro de nós e que nasceu connosco.
+                            </p>
+                            <p>
+                                Somos de todos e para todos.
+                            </p>
+                            <p>
+                                O Clube Futsal de Oeiras é a força dos mais novos, dos mais velhos, dos que já conseguiram 
+                                e do que ainda estão para conseguir.
+                            </p>
+                        </div>
+                        
+                        <!-- Estatísticas (Counters) -->
+                        <div class="grid grid-cols-3 gap-4 mt-12">
+                            
+                            <!-- Stat Card 1 -->
+                            <div class="stats-card">
+                                <p class="text-3xl sm:text-4xl font-extrabold text-black mb-1">19</p>
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">ANOS DE HISTÓRIA</p>
+                            </div>
+                            
+                            <!-- Stat Card 2 -->
+                            <div class="stats-card">
+                                <p class="text-3xl sm:text-4xl font-extrabold text-black mb-1">120</p>
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">ATLETAS ATIVOS</p>
+                            </div>
+                            
+                            <!-- Stat Card 3 -->
+                            <div class="stats-card">
+                                <p class="text-3xl sm:text-4xl font-extrabold text-black mb-1">8</p>
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">EQUIPAS FEDERADAS</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LADO DIREITO: Diagrama/Esboço (Simulação da imagem) -->
+                    <div class="h-full">
+                        <div class="diagram-container">
+                            <div class="diagram-text">
+                                <img src="imagens/sobre nos/548635701_18528759631027824_6411069465137770650_n.jpg" alt="">
+                          </div>
+                           <span class="text-accent font-semibold flex items-center">
+</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- SECÇÃO DE PALMARÉS -->
+    <section class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- Título e Descrição -->
+                <div class="text-center mb-10">
+                    <span class="inline-block text-xs font-semibold tracking-widest uppercase text-gray-600 bg-gray-100 px-3 py-1 rounded-full mb-3">HISTÓRIA VITORIOSA</span>
+                    <h2 class="text-4xl sm:text-5xl font-extrabold mb-4 text-gray-900">Palmarés</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600 text-lg">Anos de trabalho, títulos e conquistas que definem a identidade vencedora do Clube Futsal de Oeiras.</p>
+                </div>
+                
+                <!-- Grelha de Títulos -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                    
+                    <!-- Card 1: 2025 -->
+                    <div class="bg-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                        <p class="text-xs font-semibold text-gray-500 mb-2">2025</p>
+                        <h3 class="text-xl font-extrabold mb-3 text-gray-900">AF Lisboa Juniores A Futsal 1ª Divisão Honra</h3>
+                        <p class="text-gray-600 text-sm">Título distrital conquistado com domínio ofensivo e defesa sólida.</p>
+                    </div>
+
+                    <!-- Card 2: 2024 -->
+                    <div class="bg-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                        <p class="text-xs font-semibold text-gray-500 mb-2">2024</p>
+                        <h3 class="text-xl font-extrabold mb-3 text-gray-900">AF Lisboa Juniores A Futsal 2ª Divisão</h3>
+                        <p class="text-gray-600 text-sm">Campanha vitoriosa que carimbou a subida à divisão de honra.</p>
+                    </div>
+                    
+                    <!-- Card 3: 2022/23 2016/17 -->
+                    <div class="bg-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                        <p class="text-xs font-semibold text-gray-500 mb-2">2022/23 | 2016/17</p>
+                        <h3 class="text-xl font-extrabold mb-3 text-gray-900">2 × AF Lisboa Juniores A Futsal 3ª Divisão</h3>
+                        <p class="text-gray-600 text-sm">Temporada perfeita com a equipa a conquistar todos os jogos decisivos.</p>
+                    </div>
+                    
+                    <!-- Card 4: 2022 -->
+                    <div class="bg-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                        <p class="text-xs font-semibold text-gray-500 mb-2">2022</p>
+                        <h3 class="text-xl font-extrabold mb-3 text-gray-900">Taça Nacional Sub-17</h3>
+                        <p class="text-gray-600 text-sm">Um marco histórico para a formação do clube, elevando o nome de Oeiras a nível nacional.</p>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="bg-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-extrabold mb-3 text-gray-900">7× Campeão de Série</h3>
+                        <p class="text-gray-600 text-sm">Campeões de Série na AF Lisboa 7 vezes nos escalões de formação, demonstrando excelência nos mais novos.</p>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="bg-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-extrabold mb-3 text-gray-900">Top 4 Nacional</h3>
+                        <p class="text-gray-600 text-sm">Quarta equipa a nível Nacional com mais atletas de formação inscritos na FPF, consolidando o nosso compromisso com a modalidade.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECÇÃO DE GALERIA -->
+    <section class="bg-page-light py-16" id="galeria">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl p-6 md:p-12">
+                
+                <!-- Título -->
+                <div class="text-center mb-10">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Galeria</h2>
+                    <p class="text-lg text-gray-600">Conheça os momentos mais marcantes do nosso clube através das nossas fotografias.</p>
+                </div>
+
+                <!-- Grelha de Galeria -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+
+                    <!-- Cartão 1 -->
+                    <a href="foto1.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/CFOxBraga/_DSC0778.jpg" alt="Oeiras vs Braga" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">Oeiras vs Braga</p>
+                            <p class="text-xs text-gray-500 mt-1">20 Fotos | Sub-19</p>
+                        </div>
+                    </a>
+
+                    <!-- Cartão 2 -->
+                    <a href="foto5.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/CFOxSporting juv/_DSC0130.jpg" alt="Oeiras vs Sporting" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">Oeiras vs Sporting</p>
+                            <p class="text-xs text-gray-500 mt-1">24 Fotos | Sub-17</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Cartão 3 -->
+                    <a href="foto3.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/CFOxLombos/_DSC0008-2.jpg" alt="Oeiras vs Lombos" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">Oeiras vs Lombos</p>
+                            <p class="text-xs text-gray-500 mt-1">40 Fotos | Sub-17</p>
+                        </div>
+                    </a>
+
+                    <!-- Cartão 4 -->
+                    <a href="foto4.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/CFOxSporting/DSC_0000 (276).jpg" alt="Oeiras vs Sporting" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">Oeiras vs Sporting</p>
+                            <p class="text-xs text-gray-500 mt-1">40 Fotos | Sub-19</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Cartão 5 -->
+                    <a href="foto2.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/CFOxD.João/_DSC0228.jpg" alt="D.João vs Oeiras" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">D.João vs Oeiras</p>
+                            <p class="text-xs text-gray-500 mt-1">44 Fotos | Sub-17</p>
+                        </div>
+                    </a>
+
+                    <!-- Cartão 6 -->
+                    <a href="foto6.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/CFOxJardim/DSC_00 (730).jpg" alt="Oeiras vs Jardim Amoreira" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">Oeiras vs Jardim Amoreira</p>
+                            <p class="text-xs text-gray-500 mt-1">44 Fotos | Sub-19</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Cartão 7 -->
+                    <a href="foto7.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/LPSxCFO/_DSC0042.jpg" alt="Treino Infantis" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">LPS vs Oeiras</p>
+                            <p class="text-xs text-gray-500 mt-1">44 Fotos | Sub-19</p>
+                        </div>
+                    </a>
+
+                    <!-- Cartão 8 -->
+                    <a href="foto8.html" class="block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
+                        <img src="imagens/galeria/CFOxRibafria/_DSC0430.jpg" alt="Celebração do Palmarés 2024" class="w-full h-32 md:h-40 object-cover">
+                        <div class="p-3">
+                            <p class="text-sm font-semibold text-gray-800 truncate">Oeiras vs Ribafria</p>
+                            <p class="text-xs text-gray-500 mt-1">44 Fotos | Sub-15</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="bg-page-light py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end">
+
+    <!-- Texto e Título -->
+                <div class="lg:w-2/3 text-center lg:text-left space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-widest text-red-500">LIGA-TE AO CLUBE</p>
+                    <h3 class="text-2xl font-extrabold text-gray-900">
+                        Parceiros e contactos sempre próximos
+                    </h3>
+                    <p class="text-sm text-gray-500 max-w-lg lg:max-w-none">
+                        Conhece as marcas que caminham ao nosso lado e fala com a equipa para apoiar, inscrever ou colaborar com o Clube Futsal de Oeiras.
+                    </p>
+                </div>
+                
+                <!-- Botões -->
+                <div class="flex space-x-4 flex-shrink-0">
+                    <a href="patrocinadores.html" class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full text-sm hover:bg-red-800 transition duration-300" style="margin-right: 175px;">
+                        PATROCINADORES
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECÇÃO 3: FOOTER FINAL -->
+    <footer id="final-footer" class="bg-white border-t border-gray-100 pt-10 pb-4 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-6 lg:space-y-0 pb-6">
+                
+                <!-- Coluna Esquerda: Marca e Slogan -->
+                <div class="text-left">
+                    <h4 class="text-lg font-extrabold text-gray-900 mb-1">Clube Futsal de Oeiras</h4>
+                    <p class="text-sm">No Oeiras Todos Contam</p>
+                    <p class="text-xs text-gray-400">Desde 1997</p>
+                </div>
+
+                <!-- Coluna Central: Links de Navegação -->
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+                    <a href="homepage.html" class="hover:text-gray-900 transition">Início</a>
+                    <a href="equipas.html" class="hover:text-gray-900 transition">Equipas</a>
+                    <a href="agenda.html" class="hover:text-gray-900 transition">Agenda</a>
+                    <a href="noticias.html" class="hover:text-gray-900 transition">Notícias</a>
+                    <a href="sobre.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Sobre Nós</a>
+                    <a href="loja1.html" class="hover:text-gray-900 transition">Loja</a>
+                    <a href="#" class="hover:text-gray-900 transition">Patrocinadores</a>
+                                    </div>
+
+                <!-- Coluna Direita: Direitos de Autor -->
+                 <div class="text-sm text-gray-400">
+                    &copy; 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+    </body>
+</html>

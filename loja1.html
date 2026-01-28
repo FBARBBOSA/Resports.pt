@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja Oficial - Clube Futsal de Oeiras</title>
+    <!-- Carregando Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carregando Icones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Definição de Cores e Fontes (Consistente com os outros ficheiros) */
+        :root {
+            --color-bg-light: #f9f7f4; /* Fundo Creme/Bege */
+            --color-text-dark: #1f2937; /* Texto Escuro */
+            --color-primary-black: #000000;
+            --color-primary-green: #e1e3de; /* Cor de acento/tag - verde claro */
+            --color-card-bg: #ffffff; /* Fundo dos cartões */
+        }
+        /* Configuração de fonte (Inter) e estilo de fundo suave */
+      body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-background); /* Fundo Creme da imagem */
+            /* Padding superior para compensar a nav-bar fixa */
+            padding-top: 5rem; 
+            color: var(--color-primary-text);
+        }
+         /* Classe para o Header Fixo (Adaptação para o estilo claro) */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-card-bg); /* Fundo branco/claro */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+            z-index: 50; 
+            height: 5rem; 
+        }
+        
+        /* Estilos para a animação de entrada (Fade-In) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Estilo para a caixa de imagem/produto (Container da Imagem) */
+        .product-image-box {
+            background-color: #f3f4f6; /* Fundo claro para destacar a imagem */
+            height: 180px; /* Altura fixa para a área da imagem */
+            overflow: hidden; /* Garante que a imagem não saia do limite */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Estilo da Imagem dentro da caixa */
+        .product-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que a imagem cubra a área sem distorcer, cortando se necessário */
+            transition: transform 0.4s ease-in-out;
+        }
+
+        /* Efeito de hover no cartão do produto */
+        .product-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-5px); /* Levanta ligeiramente */
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
+        }
+        /* Zoom na imagem ao passar o rato (melhora a interação) */
+        .product-card:hover .product-image-box img {
+            transform: scale(1.05); 
+        }
+        .product-card:active {
+            transform: translateY(0);
+        }
+
+        /* Estilo para produtos menores */
+        .small-product-image-box {
+            width: 100%;
+            height: 100%; /* Altura de 24 (tailwind) */
+            background-color: #f3f4f6;
+            overflow: hidden;
+        }
+        .small-product-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .product-card:hover .small-product-image-box img {
+            transform: scale(1.05);
+        }
+
+        /* ESTILOS PARA O MODAL DO PRODUTO */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .product-modal.active {
+            display: flex;
+        }
+
+        .product-modal-content {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: zoomIn 0.3s ease-in-out;
+        }
+
+        @keyframes zoomIn {
+            from { 
+                opacity: 0; 
+                transform: scale(0.9);
+            }
+            to { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+        }
+
+        .product-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .product-modal-close:hover {
+            color: #000;
+        }
+
+        .product-modal-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            background-color: #f3f4f6;
+            padding: 20px;
+        }
+
+        .product-modal-info h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .product-modal-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        .product-modal-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .product-modal-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #dc2626;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            uppercase: true;
+            letter-spacing: 0.05em;
+        }
+
+        .product-modal-button:hover {
+            background-color: #991b1b;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto p-4 flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-3 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="imagens/fundo/transferir.png" alt="CF Oeiras Logo" class="w-12 h-12 object-contain">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-gray-900">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex justify-center space-x-8 xl:space-x-12 text-base font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-gray-600 transition duration-300 text-gray-900">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-gray-600 transition duration-300">Equipas</a>
+                <a href="agenda.html" class="hover:text-gray-600 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-gray-600 transition duration-300 ">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-gray-600 transition duration-300 ">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-red-500 transition duration-300">Patrocinadores</a>
+            </div>
+
+            <!-- Botões de CTA e Carrinho -->
+            <div class="flex items-center space-x-4">
+                
+                <!-- ÍCONE DO CARRINHO (NOVO) -->
+                <a href="carrinho.html"  class="relative text-gray-600 hover:text-gray-900 transition duration-300 p-2 rounded-full hover:bg-gray-100" title="Ver Carrinho de Compras">
+                    <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                    <!-- Contador do Carrinho (Badge) -->
+                    <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full" style="display: none;">
+                        0
+                    </span>
+                </a>
+
+               <!-- Botão de CTA -->
+                <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                JUNTA-TE AO CLUBE
+            </a> 
+            
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 2. CONTENT CONTAINER PRINCIPAL (Cartão Central) -->
+    <main class="max-w-5xl mx-auto mt-12 mb-16 px-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-12 animate-fadeIn">
+
+            <!-- TÍTULO DA PÁGINA -->
+            <div class="text-center mb-10">
+                <span class="inline-block text-xs font-semibold tracking-widest uppercase text-red-700 bg-red-100 px-3 py-1 rounded-full mb-3">
+                    MERCHANDISING OFICIAL
+                </span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Loja</h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Descobre os equipamentos oficiais, merchandising exclusivo e os artigos que fazem vibrar o Clube Futsal de Oeiras.
+                </p>
+            </div>
+
+            <!-- 3. GRELHA DE PRODUTOS (RESPONSIVA) - PRODUTOS PRINCIPAIS -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
+
+                <!-- PRODUTO 1: Camisola Principal -->
+                <div class="product-card block bg-gray-50 rounded-2xl shadow-xl overflow-hidden text-decoration-none">
+                    <a href="#" class="block">
+                        <div class="product-image-box rounded-t-2xl flex items-center justify-center">
+                            <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                            <img src="imagens/Fotos/prin.png" 
+                                alt="Camisola Principal CFO" 
+                                onerror="this.src='https://placehold.co/180x180/1f2937/b49a5b?text=ERRO';" />
+                        </div>
+                    </a>
+                    <div class="p-4">
+                        <h2 class="text-lg font-bold text-gray-900 mb-1 leading-tight">Equipamento Principal</h2>
+                                               <div class="flex justify-between items-center mt-2">
+                            <span class="text-xl font-extrabold text-gray-900">€45</span>
+                            <button data-product-id="1" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                                COMPRAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUTO 2: Hoodie Vermelho -->
+                <div class="product-card block bg-gray-50 rounded-2xl shadow-xl overflow-hidden text-decoration-none">
+                    <a href="#" class="block">
+                        <div class="product-image-box rounded-t-2xl flex items-center justify-center">
+                            <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                            <img src="imagens/Fotos/hooodieeee.png" 
+                                alt="Hoodie Vermelho CFO" 
+                                onerror="this.src='https://placehold.co/180x180/4b5563/b49a5b?text=ERRO';" />
+                        </div>
+                    </a>
+                    <div class="p-4">
+                        <h2 class="text-lg font-bold text-gray-900 mb-1 leading-tight">Hoodie Vermelho</h2>
+                                                <div class="flex justify-between items-center mt-2">
+                            <span class="text-xl font-extrabold text-gray-900">30€</span>
+                            <button data-product-id="2" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                                COMPRAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PRODUTO 3: Cachecol Oficial -->
+                <div class="product-card block bg-gray-50 rounded-2xl shadow-xl overflow-hidden text-decoration-none">
+                    <a href="#" class="block">
+                        <div class="product-image-box rounded-t-2xl flex items-center justify-center">
+                            <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                            <img src="imagens/Fotos/sec.png" 
+                                alt="Cachecol Oficial CFO" 
+                                onerror="this.src='https://placehold.co/180x180/b49a5b/1f2937?text=ERRO';" />
+                        </div>
+                    </a>
+                    <div class="p-4">
+                        <h2 class="text-lg font-bold text-gray-900 mb-1 leading-tight">Camisola Secundaria</h2>
+                                               <div class="flex justify-between items-center mt-2">
+                            <span class="text-xl font-extrabold text-gray-900">45€</span>
+                            <button data-product-id="3" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                                COMPRAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUTO 4: Pack Academia -->
+                <div class="product-card block bg-gray-50 rounded-2xl shadow-xl overflow-hidden text-decoration-none">
+                    <a href="#" class="block">
+                        <div class="product-image-box rounded-t-2xl flex items-center justify-center">
+                            <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                            <img src="imagens/Fotos/kit.png" 
+                                alt="Pack Academia CFO" 
+                                onerror="this.src='https://placehold.co/180x180/1f2937/4b5563?text=ERRO';" />
+                        </div>
+                    </a>
+                    <div class="p-4">
+                        <h2 class="text-lg font-bold text-gray-900 mb-1 leading-tight">Conjunto De Treino</h2>
+                                               <div class="flex justify-between items-center mt-2">
+                            <span class="text-xl font-extrabold text-gray-900">45€</span>
+                            <button data-product-id="4" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                                COMPRAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SEÇÃO DE OUTROS PRODUTOS (Para simular a continuação) -->
+            <div class="mt-16 text-center">
+                 <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2 inline-block border-gray-200">Acessórios & Coleções Especiais</h3>
+                 
+                 <!-- Grelha de 8 produtos mais pequenos -->
+                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Produto 5: Boné -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                 <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/bone.png" 
+                                     alt="Boné Clássico CFO" 
+                                     onerror="this.src='https://placehold.co/120x96/1f2937/b49a5b?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Boné CFO</p>
+                        <p class="flex justify-between items-center mt-2"></p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">7,50€</p>
+                        <button data-product-id="5" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+
+                    <!-- Produto 5: Boné -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                 <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/bola.png" 
+                                     alt="Boné Clássico CFO" 
+                                     onerror="this.src='https://placehold.co/120x96/1f2937/b49a5b?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Bola</p>
+                        <p class="flex justify-between items-center mt-2"></p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">15€</p>
+                        <button data-product-id="6" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+
+
+                    <!-- Produto 7: Porta-chaves -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/caneca.png" 
+                                     alt="Porta-chaves Símbolo" 
+                                     onerror="this.src='https://placehold.co/120x96/b49a5b/1f2937?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Caneca</p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">5€</p>
+                        <button data-product-id="7" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+
+                    <!-- Produto 8: Caneca -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/mochila.png"
+                                     alt="Caneca Campeões" 
+                                     onerror="this.src='https://placehold.co/120x96/4b5563/1f2937?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Mochila</p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">25€</p>
+                        <button data-product-id="8" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+
+                    <!-- Produto 9: Meias -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/meias.png" 
+                                     alt="Meias Oficiais Jogo" 
+                                     onerror="this.src='https://placehold.co/120x96/1f2937/b49a5b?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Meias Oficiais</p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">5€</p>
+                        <button data-product-id="9" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+
+                    <!-- Produto 10: T-Shirt Treino -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/porta chave.png" 
+                                     alt="T-Shirt Treino Verde" 
+                                     onerror="this.src='https://placehold.co/120x96/4b5563/b49a5b?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Porta Chaves</p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">3€</p>
+                        <button data-product-id="10" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+
+                    <!-- Produto 11: Casaco Inverno -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/casaco.png" 
+                                     alt="Casaco Inverno Edição" 
+                                     onerror="this.src='https://placehold.co/120x96/b49a5b/1f2937?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Casaco Inverno</p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">€35</p>
+                        <button data-product-id="11" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+
+                    <!-- Produto 12: Mochila -->
+                    <div class="product-card block bg-gray-50 rounded-xl shadow-lg p-4 text-decoration-none">
+                        <a href="#" class="block">
+                            <div class="small-product-image-box rounded-lg mb-3">
+                                <!-- COLOQUE A SUA FOTOGRAFIA AQUI -->
+                                <img src="imagens/Fotos/polo.png" 
+                                     alt="Mochila Desportiva" 
+                                     onerror="this.src='https://placehold.co/120x96/1f2937/4b5563?text=ERRO';" />
+                            </div>
+                        </a>
+                        <p class="text-sm font-bold text-gray-900 truncate">Polo</p>
+                        <p class="text-lg font-extrabold text-gray-900 mt-1 mb-3">€20</p>
+                        <button data-product-id="12" class="buy-button px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition duration-200 uppercase tracking-wider">
+                            COMPRAR
+                        </button>
+                    </div>
+                 </div>
+
+                 
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL DO PRODUTO -->
+    <div id="productModal" class="product-modal">
+        <div class="product-modal-content">
+            <button class="product-modal-close" id="closeProductModal">&times;</button>
+            <img id="productModalImage" src="" alt="Produto" class="product-modal-image">
+            <div class="product-modal-info">
+                <h2 id="productModalName"></h2>
+                <p class="product-modal-price">€<span id="productModalPrice"></span></p>
+                <p class="product-modal-description" id="productModalDescription"></p>
+                <button id="productModalAddButton" class="product-modal-button">ADICIONAR AO CARRINHO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECÇÃO LIGA-TE AO CLUBE (Rodapé superior) -->
+    <section class="bg-page-light py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end">
+
+    <!-- Texto e Título -->
+                <div class="lg:w-2/3 text-center lg:text-left space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-widest text-red-500">LIGA-TE AO CLUBE</p>
+                    <h3 class="text-2xl font-extrabold text-gray-900">
+                        Parceiros e contactos sempre próximos
+                    </h3>
+                    <p class="text-sm text-gray-500 max-w-lg lg:max-w-none">
+                        Conhece as marcas que caminham ao nosso lado e fala com a equipa para apoiar, inscrever ou colaborar com o Clube Futsal de Oeiras.
+                    </p>
+                </div>
+                
+                <!-- Botões -->
+                <div class="flex space-x-4 flex-shrink-0">
+                    <a href="patrocinadores.html" class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full text-sm hover:bg-red-800 transition duration-300" style="margin-right: 175px;">
+                        PATROCINADORES
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECÇÃO 3: FOOTER FINAL -->
+    <footer id="final-footer" class="bg-white border-t border-gray-100 pt-10 pb-4 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-6 lg:space-y-0 pb-6">
+                
+                <!-- Coluna Esquerda: Marca e Slogan -->
+                <div class="text-left">
+                    <h4 class="text-lg font-extrabold text-gray-900 mb-1">Clube Futsal de Oeiras</h4>
+                    <p class="text-sm">No Oeiras Todos Contam</p>
+                    <p class="text-xs text-gray-400">Desde 1997</p>
+                </div>
+
+                <!-- Coluna Central: Links de Navegação -->
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+                    <a href="homepage.html" class="hover:text-gray-900 transition">Início</a>
+                    <a href="equipas.html" class="hover:text-gray-900 transition">Equipas</a>
+                    <a href="agenda.html" class="hover:text-gray-900 transition">Agenda</a>
+                    <a href="noticias.html" class="hover:text-gray-900 transition ">Notícias</a>
+                    <a href="sobre.html" class="hover:text-gray-900 transition">Sobre Nós</a>
+                    <a href="loja1.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Loja</a>
+                    <a href="patrocinadores.html" class="hover:text-gray-900 transition">Patrocinadores</a>
+                                    </div>
+
+                <!-- Coluna Direita: Direitos de Autor -->
+                 <div class="text-sm text-gray-400">
+                    &copy; 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script>
+        // Função para inicializar o ícone (Lucide icons)
+        lucide.createIcons();
+
+        // Base de dados de produtos
+        const productsDatabase = {
+            '1': { id: '1', name: 'Equipamento Principal', description: 'Vermelha com detalhes brancos e símbolo bordado.', price: 45, image: 'imagens/Fotos/prin.png' },
+            '2': { id: '2', name: 'Hoodie Vermelho', description: 'Ideal para treinos e viagens da equipa.', price: 30, image: 'imagens/Fotos/hooodieeee.png' },
+            '3': { id: '3', name: 'Equipamento Secundario', description: 'Preto com detalhes em cinzento e símbolo bordado.', price: 45, image: 'imagens/Fotos/sec.png' },
+            '4': { id: '4', name: 'Conjunto Academia', description: 'Kit completo para atletas jovens da formação.', price: 45, image: 'imagens/Fotos/kit.png' },
+            '5': { id: '5', name: 'Boné Clássico CFO', description: 'Boné com símbolo oficial do clube.', price: 7.50, image: 'imagens/Fotos/bone.png' },
+            '6': { id: '6', name: 'Bola', description: 'Bola oficial para treino e jogo.', price: 15, image: 'imagens/Fotos/bola.png' },
+            '7': { id: '7', name: 'Caneca', description: 'Caneca oficial do Clube Futsal de Oeiras.', price: 5, image: 'imagens/Fotos/caneca.png' },
+            '8': { id: '8', name: 'Mochila', description: 'Mochila desportiva com logo oficial.', price: 25, image: 'imagens/Fotos/mochila.png' },
+            '9': { id: '9', name: 'Meias Oficiais', description: 'Meias oficiais de jogo e treino.', price: 5, image: 'imagens/Fotos/meias.png' },
+            '10': { id: '10', name: 'Porta Chaves', description: 'Porta-chaves com símbolo do clube.', price: 3, image: 'imagens/Fotos/porta chave.png' },
+            '11': { id: '11', name: 'Casaco Inverno', description: 'Casaco quentinho para o inverno.', price: 35, image: 'imagens/Fotos/casaco.png' },
+            '12': { id: '12', name: 'Polo', description: 'Polo oficial do clube.', price: 20, image: 'imagens/Fotos/polo.png' }
+        };
+
+        // Variáveis do DOM
+        const cartCountElement = document.getElementById('cart-count');
+        const buyButtons = document.querySelectorAll('.buy-button');
+        const cartIconLink = document.getElementById('cart-icon-link');
+
+        /**
+         * Atualiza o contador de itens do carrinho no header.
+         */
+        function updateCartCount() {
+            // Obtém o carrinho do localStorage
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (totalItems > 0) {
+                cartCountElement.textContent = totalItems;
+                cartCountElement.style.display = 'inline-flex';
+            } else {
+                cartCountElement.textContent = '0';
+                cartCountElement.style.display = 'none';
+            }
+        }
+
+        /**
+         * Obtém o carrinho do localStorage.
+         */
+        function getCart() {
+            try {
+                const cartJson = localStorage.getItem('shoppingCart');
+                return cartJson ? JSON.parse(cartJson) : [];
+            } catch (e) {
+                console.error("Erro ao carregar o carrinho:", e);
+                return [];
+            }
+        }
+
+        /**
+         * Salva o carrinho no localStorage.
+         */
+        function saveCart(cart) {
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+            updateCartCount();
+        }
+        
+        /**
+         * Adiciona um item ao carrinho e atualiza a interface.
+         * @param {string} productId O ID do produto que está a ser adicionado.
+         */
+        function addItemToCart(productId) {
+            // Obtém as informações do produto
+            const product = productsDatabase[productId];
+            if (!product) {
+                console.error(`Produto ${productId} não encontrado.`);
+                return;
+            }
+
+            // Obtém o carrinho atual
+            let cart = getCart();
+
+            // Verifica se o produto já está no carrinho
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                // Adiciona um novo item com quantidade 1
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    description: product.description,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+
+            // Salva o carrinho
+            saveCart(cart);
+
+            // Feedback visual rápido
+            cartCountElement.classList.remove('animate-ping-once');
+            void cartCountElement.offsetWidth; // Recalcula o layout para reiniciar a animação
+            cartCountElement.classList.add('animate-ping-once');
+
+            console.log(`Produto ${productId} adicionado ao carrinho.`);
+        }
+
+        // Adiciona a classe de animação ping (para dar um pequeno "salto" no contador)
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ping-once {
+                0%, 100% { transform: scale(1.0); opacity: 1; }
+                50% { transform: scale(1.3); opacity: 0.8; }
+            }
+            .animate-ping-once {
+                animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1) 1;
+            }
+        `;
+        document.head.appendChild(style);
+
+
+        // Modal do Produto
+        const productModal = document.getElementById('productModal');
+        const closeProductModalButton = document.getElementById('closeProductModal');
+        const productModalAddButton = document.getElementById('productModalAddButton');
+        let currentProductIdInModal = null;
+
+        /**
+         * Abre o modal do produto com a informação completa
+         * @param {string} productId O ID do produto
+         */
+        function openProductModal(productId) {
+            const product = productsDatabase[productId];
+            if (!product) return;
+
+            currentProductIdInModal = productId;
+            document.getElementById('productModalImage').src = product.image;
+            document.getElementById('productModalName').textContent = product.name;
+            document.getElementById('productModalPrice').textContent = product.price.toFixed(2).replace('.', ',');
+            document.getElementById('productModalDescription').textContent = product.description;
+            productModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
+         * Fecha o modal do produto
+         */
+        function closeProductModal() {
+            productModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentProductIdInModal = null;
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Reinicia o carrinho cada vez que a página é carregada
+            localStorage.removeItem('shoppingCart');
+            
+            // 2. Carrega o estado inicial do carrinho
+            updateCartCount();
+
+            // 3. Adiciona o listener para cada imagem de produto (para abrir o modal)
+            const productImages = document.querySelectorAll('.product-image-box img, .small-product-image-box img');
+            productImages.forEach((img) => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Obtém o ID do produto a partir do botão 'COMPRAR' mais próximo
+                    const card = img.closest('.product-card');
+                    const buyButton = card.querySelector('.buy-button');
+                    const productId = buyButton.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+
+            // 4. Fecha o modal ao clicar no botão de fechar
+            closeProductModalButton.addEventListener('click', closeProductModal);
+
+            // 5. Fecha o modal ao clicar fora do conteúdo (no fundo escuro)
+            productModal.addEventListener('click', (e) => {
+                if (e.target === productModal) {
+                    closeProductModal();
+                }
+            });
+
+            // 6. Fecha o modal ao pressionar ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && productModal.classList.contains('active')) {
+                    closeProductModal();
+                }
+            });
+
+            // 7. Adiciona a funcionalidade do botão de adicionar no modal
+            productModalAddButton.addEventListener('click', () => {
+                if (currentProductIdInModal) {
+                    addItemToCart(currentProductIdInModal);
+                    const originalText = productModalAddButton.textContent;
+                    productModalAddButton.textContent = 'ADICIONADO!';
+                    setTimeout(() => {
+                        productModalAddButton.textContent = originalText;
+                        closeProductModal();
+                    }, 800);
+                }
+            });
+
+            // 8. Adiciona o listener para cada botão 'COMPRAR'
+            buyButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    // Impede o comportamento de submissão do formulário (se existisse)
+                    event.preventDefault(); 
+                    
+                    const productId = button.getAttribute('data-product-id');
+                    addItemToCart(productId);
+
+                    // Opcional: Altera o texto do botão temporariamente para feedback
+                    const originalText = button.textContent;
+                    button.textContent = 'ADICIONADO!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 800);
+                });
+            });
+
+            // 9. Define a ação do link do carrinho (redireciona para a página de checkout)
+            if (cartIconLink) {
+                cartIconLink.addEventListener('click', (event) => {
+                    // Deixa o link funcionar normalmente para carrinho.html
+                    // event.preventDefault() não é necessário aqui
+                });
+            }
+        });
+    </script>
+</body>
+</html>

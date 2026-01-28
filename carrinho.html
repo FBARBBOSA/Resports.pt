@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras - Clube Futsal de Oeiras</title>
+    <!-- Carregando Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        /* Estilo personalizado para os inputs de quantidade */
+        .quantity-input {
+            appearance: none;
+            -moz-appearance: textfield;
+            text-align: center;
+        }
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto p-4 flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-3 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="imagens/fundo/transferir.png" alt="CF Oeiras Logo" class="w-12 h-12 object-contain">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-gray-900">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex justify-center space-x-8 xl:space-x-12 text-base font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-gray-600 transition duration-300">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-red-500 transition duration-300 ">Equipas</a>
+                <a href="agenda.html" class="hover:text-red-500 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-red-500 transition duration-300">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-red-500 transition duration-300">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-red-500 transition duration-300">Patrocinadores</a>
+
+                
+            </div>
+            <!-- Botão de Ação Principal e Carrinho -->
+            <div class="flex items-center space-x-4">
+                <!-- Contador do Carrinho (Badge) -->
+                <span id="cart-count" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full" style="display: none;">
+                    0
+                </span>
+                <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                    JUNTA-TE AO CLUBE
+                </a>
+            </div> 
+            
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+            </nav>
+    </header>
+
+    <!-- CONTENT CONTAINER PRINCIPAL -->
+    <main class="max-w-6xl mx-auto mt-12 mb-16 px-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-12 animate-fadeIn">
+
+            <!-- TÍTULO DA PÁGINA -->
+            <div class="text-center mb-10">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">O Meu Carrinho</h1>
+                <p class="text-lg text-gray-600">Reveja os seus itens e finalize a compra.</p>
+            </div>
+
+            <div id="cart-content" class="flex flex-col lg:flex-row gap-8">
+                
+                <!-- Coluna Esquerda: Lista de Itens -->
+                <div class="lg:w-3/5">
+                    <div id="cart-items-container" class="space-y-6">
+                        <!-- Itens do carrinho serão inseridos aqui pelo JS -->
+                    </div>
+
+                    <!-- Mensagem de Carrinho Vazio -->
+                    <div id="empty-cart-message" class="hidden text-center p-10 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50">
+                        <i data-lucide="package-search" class="w-12 h-12 text-gray-400 mx-auto mb-4"></i>
+                        <h2 class="text-xl font-semibold text-gray-700">O seu carrinho está vazio.</h2>
+                        <p class="text-gray-500 mt-2">Adicione produtos da <a href="loja1.html" class="text-red-700 hover:text-red-600 font-medium underline">nossa loja</a> para continuar.</p>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Resumo da Compra -->
+                <div class="lg:w-2/5 sticky top-28">
+                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg border border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Resumo da Encomenda</h2>
+                        
+                        <!-- Detalhes do Preço -->
+                        <div class="space-y-3 border-b border-gray-200 pb-4 mb-4 text-gray-700">
+                            <div class="flex justify-between">
+                                <span>Subtotal:</span>
+                                <span id="subtotal" class="font-medium">€0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Envio (Padrão):</span>
+                                <span id="shipping" class="font-medium">€0.50</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Desconto (Promoção):</span>
+                                <span class="font-medium text-red-600">-€0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Total Final -->
+                        <div class="flex justify-between items-center text-xl font-bold text-gray-900 pt-4">
+                            <span>Total (IVA incluído):</span>
+                            <span id="total-final">€5.00</span>
+                        </div>
+                        
+                        <!-- Botão Finalizar Compra -->
+                        <button id="checkout-btn" class="mt-8 w-full py-4 bg-red-600 text-white text-lg font-semibold rounded-xl hover:bg-red-700 transition duration-300 shadow-xl shadow-red-200/50" disabled>
+                            FINALIZAR COMPRA
+                        </button>
+
+                        <p class="text-xs text-gray-500 mt-4 text-center">Entrega em 3-5 dias úteis. Devoluções gratuitas.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- RODAPÉ (FOOTER) -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-xs text-gray-500">
+                    © 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT DO CARRINHO (Página Carrinho) -->
+    <script>
+        // --- Constantes e Variáveis Globais ---
+        const SHIPPING_COST = 0.64;
+        const cartContainer = document.getElementById('cart-items-container');
+        const emptyMessage = document.getElementById('empty-cart-message');
+        const subtotalElement = document.getElementById('subtotal');
+        const totalFinalElement = document.getElementById('total-final');
+        const cartCountElement = document.getElementById('cart-count');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        // --- Funções de LocalStorage ---
+        function getCart() {
+            try {
+                const cartJson = localStorage.getItem('shoppingCart');
+                return cartJson ? JSON.parse(cartJson) : [];
+            } catch (e) {
+                console.error("Erro ao carregar o carrinho do localStorage:", e);
+                return [];
+            }
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+            renderCart(); // Redesenha o carrinho após salvar
+        }
+
+        // --- Lógica de Renderização e Cálculo ---
+        function calculateTotals(cart) {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            // Adiciona o custo de envio apenas se houver itens no carrinho
+            const totalFinal = subtotal > 0 ? subtotal + SHIPPING_COST : 0.00;
+            
+            subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
+            totalFinalElement.textContent = `€${totalFinal.toFixed(2)}`;
+            cartCountElement.textContent = totalItems;
+            
+            // Ativa/Desativa o botão de checkout, a mensagem de carrinho vazio e o badge do contador
+            if (totalItems > 0) {
+                emptyMessage.classList.add('hidden');
+                checkoutBtn.disabled = false;
+                checkoutBtn.classList.remove('bg-gray-400', 'hover:bg-gray-400');
+                checkoutBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                cartCountElement.style.display = 'inline-flex';
+            } else {
+                emptyMessage.classList.remove('hidden');
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('bg-gray-400', 'hover:bg-gray-400');
+                checkoutBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                cartCountElement.style.display = 'none';
+            }
+        }
+
+        function renderCart() {
+            const cart = getCart();
+            cartContainer.innerHTML = ''; // Limpa o container antes de renderizar
+
+            if (cart.length === 0) {
+                calculateTotals([]);
+                return;
+            }
+
+            cart.forEach(item => {
+                const itemTotal = (item.price * item.quantity).toFixed(2);
+
+                const itemHtml = `
+                    <div class="flex flex-col sm:flex-row items-center border p-4 rounded-xl shadow-sm bg-white hover:shadow-md transition duration-200" data-id="${item.id}">
+                        <!-- Imagem do Produto -->
+                        <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border border-gray-100 mb-4 sm:mb-0 sm:mr-4">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Detalhes do Produto e Ações -->
+                        <div class="flex-grow w-full sm:w-auto">
+                            <h3 class="text-lg font-bold text-gray-900">${item.name}</h3>
+                            <p class="text-sm font-medium text-gray-800 mt-1">Preço Unitário: €${item.price.toFixed(2)}</p>
+                        </div>
+                        
+                        <!-- Controlo de Quantidade e Total -->
+                        <div class="flex items-center justify-between w-full sm:w-auto sm:space-x-8 mt-4 sm:mt-0">
+                            <!-- Controlo de Quantidade -->
+                            <div class="flex items-center space-x-2">
+                                <button class="quantity-change-btn bg-gray-200 text-gray-700 p-2 rounded-lg hover:bg-gray-300 transition duration-150" data-action="decrement" data-id="${item.id}">
+                                    <i data-lucide="minus" class="w-4 h-4"></i>
+                                </button>
+                                <input type="number" value="${item.quantity}" min="1" class="quantity-input w-12 h-10 border border-gray-300 rounded-lg font-semibold text-center" data-id="${item.id}" readonly>
+                                <button class="quantity-change-btn bg-gray-200 text-gray-700 p-2 rounded-lg hover:bg-gray-300 transition duration-150" data-action="increment" data-id="${item.id}">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+
+                            <!-- Total por Item -->
+                            <div class="ml-4 sm:ml-0 w-24 text-right">
+                                <span class="text-lg font-extrabold text-gray-900">€${itemTotal}</span>
+                            </div>
+                            
+                            <!-- Botão de Remover -->
+                            <button class="remove-item-btn ml-4 p-2 text-red-600 rounded-full hover:bg-red-100 transition duration-150" data-id="${item.id}">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cartContainer.insertAdjacentHTML('beforeend', itemHtml);
+            });
+
+            // Re-cria os ícones Lucide após a inserção do HTML
+            lucide.createIcons();
+            
+            // Adiciona listeners aos botões de remoção e quantidade
+            addCartEventListeners();
+
+            // Recalcula os totais
+            calculateTotals(cart);
+        }
+
+        // --- Lógica de Modificação do Carrinho ---
+        function updateQuantity(productId, action) {
+            let cart = getCart();
+            // Normaliza ambos os IDs como string para garantir correspondência mesmo se tipos diferentes
+            const itemIndex = cart.findIndex(item => String(item.id) === String(productId));
+
+            if (itemIndex !== -1) {
+                if (action === 'increment') {
+                    cart[itemIndex].quantity += 1;
+                } else if (action === 'decrement' && cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity -= 1;
+                }
+                saveCart(cart);
+            }
+        }
+
+        function removeItem(productId) {
+            // Remove qualquer item cujo ID coincida (comparação como string para evitar problemas de tipo)
+            let cart = getCart();
+            const newCart = cart.filter(item => String(item.id) !== String(productId));
+            saveCart(newCart);
+        }
+
+        function handleCheckout() {
+             // Utiliza um modal personalizado em vez de alert()
+             showModal('Finalizar Compra', 'A simulação de checkout foi realizada com sucesso! Obrigado pela sua compra no Clube Futsal de Oeiras.', () => {
+                 // Limpar carrinho após a compra simulada
+                 localStorage.removeItem('shoppingCart');
+                 renderCart();
+             });
+        }
+        
+        // Função para mostrar um modal simples (substitui alert)
+        function showModal(title, message, onConfirm = null) {
+            const modalHtml = `
+                <div id="custom-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 transition-opacity duration-300">
+                    <div class="bg-white rounded-xl shadow-2xl p-6 w-11/12 max-w-sm transform scale-95 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">${title}</h3>
+                        <p class="text-gray-700 mb-6">${message}</p>
+                        <button id="modal-close-btn" class="w-full py-3 bg-yellow-700 text-white font-semibold rounded-lg hover:bg-yellow-800 transition duration-200">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            
+            const modal = document.getElementById('custom-modal');
+            const closeBtn = document.getElementById('modal-close-btn');
+            
+            const closeModal = () => {
+                modal.classList.add('opacity-0');
+                modal.querySelector('div').classList.add('scale-95');
+                modal.addEventListener('transitionend', () => modal.remove());
+                if (onConfirm) onConfirm();
+            };
+            
+            closeBtn.onclick = closeModal;
+            // Fecha ao clicar fora do conteúdo
+            modal.onclick = (e) => {
+                 if (e.target === modal) closeModal();
+            };
+        }
+
+
+        // --- Adicionar Listeners de Eventos Dinâmicos ---
+        function addCartEventListeners() {
+            // Listeners para alterar a quantidade
+            document.querySelectorAll('.quantity-change-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    const { id, action } = e.currentTarget.dataset;
+                    updateQuantity(id, action);
+                };
+            });
+
+            // Listeners para remover item
+            document.querySelectorAll('.remove-item-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    const { id } = e.currentTarget.dataset;
+                    removeItem(id);
+                };
+            });
+
+            // Listener para o botão de checkout
+            checkoutBtn.onclick = handleCheckout;
+        }
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            // Inicia o carregamento e renderização do carrinho
+            renderCart();
+            // A taxa de envio é fixa, por isso não precisa ser renderizada dinamicamente
+            document.getElementById('shipping').textContent = `€${SHIPPING_COST.toFixed(2)}`;
+            // Inicializa o Total Final, considerando o Subtotal zero + Envio (se for o caso)
+            if (getCart().length === 0) {
+                 document.getElementById('total-final').textContent = `€0.00`;
+            }
+        });
+    </script>
+</body>
+</html>

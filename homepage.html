@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clube Futsal de Oeiras - Paixão pela Comunidade</title>
+    <!-- Incluir Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Usar a fonte Inter, como é a prática em designs modernos -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        
+        /* Configuração de classes personalizadas para o tema e fundo */
+        body
+		
+
+		{
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* O corpo é escuro por defeito, mas a seção 2 irá substituí-lo */
+            background-color: #0d0d0d;
+        }
+
+        /* --- Estilos do Tema de Cores --- */
+        
+        /* Cor de destaque para o texto, alterada de amber (amarelo) para um tom de rosa/vermelho que combina com o fundo */
+        .text-accent {
+            color: #f87171; /* red-400 */
+        }
+        
+        /* Cor de fundo principal do botão, alterada para vermelho */
+        .bg-accent {
+            background-color: #f87171; /* red-400 */
+        }
+        
+        /* Cor de hover do botão */
+        .hover\:bg-accent-dark:hover {
+            background-color: #ef4444; /* red-500 */
+        }
+
+        /* --- Secção 1 (Header/Hero) - Tema Escuro & Glassmorphism --- */
+        .hero-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Imagem de Fundo ATUALIZADA */
+            background-image: url(imagens/fundo/1f537af-004800-360099215_743805704418905_3342233565913052201_n.png);
+            background-size: cover;
+            background-position: center;
+            /* Aplica o desfoque pesado e ajuste de brilho */
+            filter: blur(12px) brightness(0.65);
+            z-index: -1;
+        }
+
+        /* Estilo para o efeito Glassmorphism principal */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.08); /* Fundo branco com 8% de opacidade */
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+
+        /* Estilo para o cartão de jogo (mais claro) */
+        .match-card {
+            background-color: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Classes para simular a marca d'água grande no fundo (MANTIDAS, mas os elementos foram REMOVIDOS) */
+        .watermark-text {
+            color: rgba(255, 255, 255, 0.05);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            user-select: none;
+            line-height: 0.8;
+        }
+
+        /* --- Secção 2 (Grelha) - Tema Claro --- */
+        .light-section {
+            background-color: #f5f5f5; /* Fundo branco sujo para contraste */
+            color: #1f2937; /* Texto escuro */
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+        }
+        
+        /* Cartões de navegação na grelha */
+        .nav-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* rounded-3xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03); /* sombra suave */
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Cor de destaque subtil para o texto claro */
+        .text-light-accent {
+            color: #10b981; /* green-500, simula a cor das imagens de referência */
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+    <!-- SECÇÃO 1: HERO - TEMA ESCURO (O que já tínhamos) -->
+    <section id="hero" class="relative min-h-screen flex flex-col justify-between text-white">
+        <!-- Fundo Fixo (Imagem com Blur) -->
+        <div class="hero-background"></div>
+
+        <!-- Marca d'água grande (CF OEIRAS no canto) - REMOVIDO -->
+        <!-- O código anterior aqui foi removido, eliminando o ícone do clube e o texto CF OEIRAS -->
+
+        <!-- Marca d'água grande (23/24 no canto direito) - REMOVIDO -->
+        <!-- O código anterior aqui foi removido, eliminando o texto 23/24 -->
+
+        <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-3 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="imagens/fundo/capa.png" alt="CF Oeiras Logo" class="w-40 h-40 object-contain">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-white">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex justify-center space-x-8 xl:space-x-12 text-base font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-red-500 transition duration-300 ">Equipas</a>
+                <a href="agenda.html" class="hover:text-red-500 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-red-500 transition duration-300">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-red-500 transition duration-300">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-red-500 transition duration-300">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-red-500 transition duration-300">Patrocinadores</a>
+            </div>
+
+            <!-- Botão de Ação Principal -->
+           <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                JUNTA-TE AO CLUBE
+            </a> 
+            
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+       
+
+        <!-- Conteúdo Hero Principal -->
+        <main class="flex-grow flex items-center justify-center p-4 lg:p-8 relative z-10">
+            <!-- Cartão Glassmorphism Principal -->
+            <div class="glass-card w-full max-w-6xl flex flex-col lg:flex-row p-6 lg:p-12 rounded-3xl shadow-2xl space-y-8 lg:space-y-0 lg:space-x-12">
+                
+                <!-- Bloco de Conteúdo (Esquerda) -->
+                <div class="lg:w-2/3 space-y-6">
+                    <p class="text-sm font-semibold text-accent uppercase tracking-widest">NO OEIRAS TODOS CONTAM</p>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
+                        Paixão pelo futsal, <br> energia da comunidade
+                    </h1>
+                    
+                    <p class="text-base sm:text-lg text-white/80 max-w-xl pt-4">
+                        O Clube Futsal de Oeiras é uma família que cresce com atletas, adeptos e parceiros. Desenvolvemos talentos, celebramos vitórias e construímos histórias dentro e fora de Campo.
+                    </p>
+
+                    <!-- Botões de Ação -->
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-6">
+                        
+                        <a href="agenda.html" class="bg-accent text-black font-bold py-3 px-8 rounded-full hover:bg-accent-dark transition duration-300 shadow-xl">
+                 PRÓXIMO JOGO
+            </a> 
+                       <a href="noticias.html" class="bg-transparent border border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white/10 transition duration-300">
+                 ÚLTIMAS NOTÍCIAS
+            </a>  
+            
+                    </div>
+
+                    <!-- Estatísticas/Links Rápidos -->
+                    <div class="flex space-x-8 pt-8 text-sm font-semibold">
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-bold">8</span>
+                            <span class="text-white/60 uppercase">ESCALÕES</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-bold">2006</span>
+                            <span class="text-white/60 uppercase">DESDE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cartão de Jogo (Direita) - Glassmorphism Aninhado -->
+                <div class="lg:w-1/3 p-6 match-card rounded-2xl shadow-xl flex-shrink-0">
+                    <p class="text-xs font-semibold uppercase mb-4 text-accent text-red-700">CD I DIVISÃO | SENIORES | JORNADA 19</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Detalhes do Confronto -->
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-extrabold">CF OEIRAS</h2>
+                            <span class="text-sm font-medium text-white/60">VS</span>
+                            <h2 class="text-xl font-extrabold">PREGANÇA</h2>
+                        </div>
+                        
+                        <div class="h-px bg-white/20 my-4"></div>
+
+                        <!-- Informações do Jogo -->
+                        <p class="text-base font-semibold">01 FEVEREIRO 2026</p>
+                        <p class="text-sm text-white/60">21H00 | Pavilhão São Julião da Barra</p>
+
+                        <!-- Botão de Bilhetes -->
+                        <div class="pt-6">
+
+                               <a href="bilhetes.html" class="w-full bg-red-600 text-white font-bold py-3 px-6 text-lg rounded-full 
+                               hover:bg-red-800 transition duration-300 shadow-2xl flex items-center justify-center"> GARANTIR BILHETES </a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Simulação de Rodapé/Informação extra -->
+        <footer class="text-center p-4 text-xs text-white/50 relative z-10 hidden lg:block">
+            <!-- Este rodapé é para a secção escura, por isso está oculto em mobile para evitar confusão com o rodapé final -->
+            &copy; 2025 CLUBE FUTSAL DE OEIRAS. 
+        </footer>
+    </section>
+    
+    <!-- SECÇÃO 2: EXPLORA O CLUBE - TEMA CLARO (As novas informações) -->
+    <section id="explora" class="light-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            
+            <!-- Título Principal -->
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-2">
+                No Oeiras Todos Contam
+            </h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-16">
+              Descobre mais sobre no nosso Clube Equipas, Agenda, Notícias, Sobre Nós, Loja e Patrocinadores.
+            </p>
+            
+            <!-- Grelha de Cartões (6 itens) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Cartão 1: Equipas -->
+                <a href="equipas.html" class="nav-card p-8 text-left block">
+                    <p class="text-sm font-bold uppercase mb-4">01</p>
+                    <h3 class="text-2xl font-bold mb-3">Equipas</h3>
+                    <p class="text-gray-500 mb-6">
+                        Descobre os plantéis de competição e formação que representam o Clube Futsal de Oeiras em cada escalão.
+                    </p>
+                    <span class="text-accent font-semibold flex items-center">
+                        Ver Equipas
+                        <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </span>
+                </a>
+
+                <!-- Cartão 2: Agenda -->
+                <a href="agenda.html" class="nav-card p-8 text-left block">
+                    <p class="text-sm font-bold uppercase mb-4 ">02</p>
+                    <h3 class="text-2xl font-bold mb-3">Agenda</h3>
+                    <p class="text-gray-500 mb-6">
+                        Consulta o calendário completo de jogos, horários e pavilhões para não perderes nenhum encontro.
+                    </p>
+                    <span class="text-accent font-semibold flex items-center">
+                        Próximos Jogos
+                        <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </span>
+                </a>
+
+
+                <!-- Cartão 3: Notícias -->
+                <a href="noticias.html" class="nav-card p-8 text-left block">
+                    <p class="text-sm font-bold uppercase mb-4 ">03</p>
+                    <h3 class="text-2xl font-bold mb-3">Notícias</h3>
+                    <p class="text-gray-500 mb-6">
+                        Lê entrevistas, resumos de jogos e comunicados oficiais que acompanham a nossa época.
+                    </p>
+                    <span class="text-accent font-semibold flex items-center">
+                        Últimas Notícias
+                        <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </span>
+                </a>
+
+
+                <!-- Cartão 4: Sobre Nós -->
+                <a href="sobre.html" class="nav-card p-8 text-left block">
+                    <p class="text-sm font-bold uppercase mb-4 ">04</p>
+                    <h3 class="text-2xl font-bold mb-3">Sobre Nós</h3>
+                    <p class="text-gray-500 mb-6">
+                        Descobre mais sobre o nosso mundo, galeria e palmarés, tudo sobre nós.
+                    </p>
+                    <span class="text-accent font-semibold flex items-center">
+                       Descobre mais sobre nós
+                        <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </span>
+                </a>
+
+
+                <!-- Cartão 5: Loja -->
+                <a href="loja1.html" class="nav-card p-8 text-left block">
+                    <p class="text-sm font-bold uppercase mb-4 ">05</p>
+                    <h3 class="text-2xl font-bold mb-3">Loja</h3>
+                    <p class="text-gray-500 mb-6">
+                        Garante os equipamentos oficiais e merchandising exclusivo para viver as cores do clube.
+                    </p>
+                    <span class="text-accent font-semibold flex items-center">
+                        Ir para a Loja
+                        <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </span>
+                </a>
+
+                
+
+                
+                
+
+                <!-- Cartão 6: Patrocinadores -->
+                <a href="patrocinadores.html" class="nav-card p-8 text-left block">
+                    <p class="text-sm font-bold uppercase mb-4 ">06</p>
+                    <h3 class="text-2xl font-bold mb-3">Patrocinadores</h3>
+                    <p class="text-gray-500 mb-6">
+                        Conhece as marcas que caminham connosco e fortalecem o futsal em Oeiras.
+                    </p>
+                    <span class="text-accent font-semibold flex items-center">
+                        Ver Patrocinadores
+                        <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </span>
+                </a>
+                
+            </div>
+        </div>
+    </section>
+    
+
+    
+    <!-- SECÇÃO 3: CALL TO ACTION - TEMA CLARO -->
+    <section id="cta" class="bg-white py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+            <!-- Imagem acima do texto (troca o src facilmente) -->
+            <div class="flex justify-center mb-8">
+                <img id="cta-overlay" src="imagens/fundo/transferir.png" alt="Overlay" class="w-3/4 sm:w-2/3 md:w-1/2 lg:w-2/5 object-contain opacity-95" style="max-height:40vh;" />
+            </div>
+
+            
+            <p class="text-sm font-semibold uppercase mb-4">VEM VIVER O FUTSAL</p>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 text-gray-800">
+                Junta-te aos treinos, apoia nas bancadas ou cria uma parceria connosco.
+            </h2>
+            <p class="text-lg text-gray-600 max-w-xl mx-auto mb-10">
+                O futuro do futsal constrói-se com a energia da comunidade. Vive o pavilhão, acompanha as equipas e descobre novas formas de apoiar o clube.
+            </p>
+            
+            
+
+        </div>
+    </section>
+
+    <!-- SECÇÃO 3: FOOTER FINAL -->
+    <footer id="final-footer" class="bg-white border-t border-gray-100 pt-10 pb-4 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-6 lg:space-y-0 pb-6">
+                
+                <!-- Coluna Esquerda: Marca e Slogan -->
+                <div class="text-left">
+                    <h4 class="text-lg font-extrabold text-gray-900 mb-1">Clube Futsal de Oeiras</h4>
+                    <p class="text-sm">No Oeiras Todos Contam</p>
+                    <p class="text-xs text-gray-400">Desde 2006</p>
+                </div>
+
+                <!-- Coluna Central: Links de Navegação -->
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+                    <a href="homepage.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Início</a>
+                    <a href="equipas.html" class="hover:text-gray-900 transition">Equipas</a>
+                    <a href="agenda.html" class="hover:text-gray-900 transition">Agenda</a>
+                    <a href="noticias.html" class="hover:text-gray-900 transition">Notícias</a>
+                    <a href="sobre.html" class="hover:text-gray-900 transition">Sobre Nós</a>
+                    <a href="loja1.html" class="hover:text-gray-900 transition">Loja</a>
+                    <a href="patrocinadores.html" class="hover:text-gray-900 transition">Patrocinadores</a>
+                                    </div>
+
+                <!-- Coluna Direita: Direitos de Autor -->
+                 <div class="text-sm text-gray-400">
+                    &copy; 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Fotografias - Clube Futsal de Oeiras</title>
+    <!-- Carregando Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Definição de Cores e Fontes */
+        :root {
+            --color-bg-light: #f9f7f4; /* Fundo Creme/Bege */
+            --color-text-dark: #1f2937; /* Texto Escuro */
+            --color-primary-black: #000000;
+            --color-primary-green: #e1e3de; /* Cor de acento/tag - verde claro */
+            --color-card-bg: #ffffff; /* Fundo dos cartões */
+        }
+
+       body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-bg-light); /* Fundo Creme da imagem */
+            /* Padding superior para compensar a nav-bar fixa */
+            padding-top: 5rem; 
+            color: var(--color-primary-text);
+        }
+
+        /* Classe para o Header Fixo (Adaptação para o estilo claro) */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-card-bg); /* Fundo branco/claro */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+            z-index: 50; 
+            height: 5rem; 
+        }
+        
+        /* Estilos para a animação de entrada (Fade-In) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Estilo para a classe de item da galeria */
+        .gallery-item {
+            /* Transição suave para o efeito de hover e de clique */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transform: translateZ(0); /* Força a aceleração de hardware */
+            cursor: pointer; /* Indica que é clicável */
+        }
+        .gallery-item:hover {
+            transform: scale(1.03); /* Aumenta ligeiramente no hover */
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Sombra mais intensa */
+        }
+        .gallery-item:active {
+            transform: scale(0.98); /* Pequeno efeito de "pressionar" ao clicar */
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos para o Modal/Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: transparent;
+            width: 2000px;
+            height: 1000px;
+            animation: zoomIn 0.3s ease-out;
+        }
+
+        .modal-content img {
+            width: 2000px;
+            height: 1000px;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-prev, .modal-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 2rem;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-radius: 0.25rem;
+        }
+
+        .modal-prev:hover, .modal-next:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-prev {
+            left: 10px;
+        }
+
+        .modal-next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- BARRA DE NAVEGAÇÃO FIXA AO TOPO -->
+    <header class="fixed-header">
+        <nav class="max-w-7xl mx-auto p-4 flex justify-between items-center h-full">
+            <!-- Logo e Nome do Clube -->
+            <a href="homepage.html" class="flex items-center space-x-3 flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="imagens/fundo/transferir.png" alt="CF Oeiras Logo" class="w-12 h-12 object-contain">
+                <div class="text-xs font-bold uppercase tracking-widest leading-tight text-gray-900">
+                    CLUBE FUTSAL <br> DE OEIRAS
+                </div>
+            </a>
+
+            <!-- Links de Navegação (Equipas em destaque) -->
+            <div class="hidden lg:flex justify-center space-x-8 xl:space-x-12 text-base font-semibold">
+                <!-- LINK CORRIGIDO: Aponta de volta para o homepage (equipas.html) -->
+                <a href="homepage.html" class="hover:text-gray-600 transition duration-300">Início</a>
+                <!-- LINK ATIVO: Página atual -->
+                <a href="equipas.html" class="hover:text-gray-600 transition duration-300">Equipas</a>
+                <a href="agenda.html" class="hover:text-gray-600 transition duration-300">Agenda</a>
+                <a href="noticias.html" class="hover:text-gray-600 transition duration-300">Notícias</a>
+                <a href="sobre.cfo.html" class="hover:text-gray-600 transition duration-300 text-red-500 font-bold">Sobre Nós</a>
+                <a href="loja1.html" class="hover:text-gray-600 transition duration-300">Loja</a>
+                <a href="patrocinadores.html" class="hover:text-gray-600 transition duration-300">Patrocinadores</a>
+            </div>
+
+            <!-- Botão de Ação Principal -->
+            <a href="junta.html" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg">
+                JUNTA-TE AO CLUBE
+            </a> 
+            
+            <!-- Menu Hamburger (para mobile) -->         
+            <button class="lg:hidden text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 2. CONTENT CONTAINER PRINCIPAL (Cartão Central) -->
+    <main class="max-w-5xl mx-auto mt-12 mb-16 px-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-12 animate-fadeIn">
+
+            <!-- TÍTULO DA PÁGINA -->
+            <div class="text-center mb-10">
+                
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Oeiras vs Braga</h1>
+                <a href="sobre.html#galeria" class="bg-white text-black font-bold py-2 px-6 rounded-full text-sm hover:bg-red-600 hover:text-white duration-300 shadow-lg ">
+                Voltar
+            </a> 
+            </div>
+
+            <!-- 3. GRELHA DE GALERIA (RESPONSIVA) -->
+            <!-- A grelha é 2 colunas no mobile, 3 no ecrã pequeno (sm) e 4 no ecrã grande (lg) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+
+                <!-- --------------------------------- LINHA 1 --------------------------------- -->
+
+                <a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0778.jpg" alt="Treino Guarda-Redes" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0363.jpg" alt="Apresentação das Equipas" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+ <a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0014.jpg" alt="Festa de Final de Época" class="w-full h-32 md:h-60 object-cover"></a>
+
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0051.jpg" alt="Treino Seniores" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0056.jpg" alt="Final da Taça Distrital" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0132.jpg" alt="Equipa Sub-17" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0173.jpg" alt="Jogo da Jornada 5" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0180.jpg" alt="Atividade Comunitária" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0296.jpg" alt="Treino Infantis" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0308.jpg" alt="Celebração do Palmarés 2024" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0374.jpg" alt="Semana Aberta de Futsal" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0411.jpg" alt="Convívio de Natal" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0463.jpg" alt="Matchday Juvenis" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0669.jpg" alt="Portugal x Espanha" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC0926-2.jpg" alt="Juniores em Ação" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC_0116.jpg" alt="Infantis Vitória" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC_0145.jpg" alt="Jogos Olímpicos" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC_0490.jpg" alt="Apoio aos Atletas" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC_0647.jpg" alt="Sub-15 Treino" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+<a href="#" class="gallery-item block bg-gray-50 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+    <img src="imagens/galeria/CFOxBraga/_DSC_0648.jpg" alt="Patrocinadores" class="w-full h-32 md:h-60 object-cover">
+</a>
+
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal/Popup para Imagens -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <button class="modal-prev">&#10094;</button>
+            <img id="modalImage" src="" alt="Imagem Ampliada">
+            <button class="modal-next">&#10095;</button>
+        </div>
+    </div>
+
+     <section class="bg-page-light py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end">
+
+    <!-- Texto e Título -->
+                <div class="lg:w-2/3 text-center lg:text-left space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-widest text-red-500">LIGA-TE AO CLUBE</p>
+                    <h3 class="text-2xl font-extrabold text-gray-900">
+                        Parceiros e contactos sempre próximos
+                    </h3>
+                    <p class="text-sm text-gray-500 max-w-lg lg:max-w-none">
+                        Conhece as marcas que caminham ao nosso lado e fala com a equipa para apoiar, inscrever ou colaborar com o Clube Futsal de Oeiras.
+                    </p>
+                </div>
+                
+                
+                <!-- Botões -->
+                <div class="flex space-x-4 flex-shrink-0">
+                    <a href="patrocinadores.html" class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full text-sm hover:bg-red-800 transition duration-300" style="margin-right: 175px;">
+                        PATROCINADORES
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 4. RODAPÉ (FOOTER) - Estilo consistente -->
+    <!-- SECÇÃO 3: FOOTER FINAL -->
+    <footer id="final-footer" class="bg-white border-t border-gray-100 pt-10 pb-4 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-6 lg:space-y-0 pb-6">
+                
+                <!-- Coluna Esquerda: Marca e Slogan -->
+                <div class="text-left">
+                    <h4 class="text-lg font-extrabold text-gray-900 mb-1">Clube Futsal de Oeiras</h4>
+                    <p class="text-sm">No Oeiras Todos Contam</p>
+                    <p class="text-xs text-gray-400">Desde 1997</p>
+                </div>
+
+                <!-- Coluna Central: Links de Navegação -->
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+                    <a href="homepage.html" class="hover:text-gray-900 transition">Início</a>
+                    <a href="equipas.html" class="hover:text-gray-900 transition">Equipas</a>
+                    <a href="agenda.html" class="hover:text-gray-900 transition">Agenda</a>
+                    <a href="noticias.html" class="hover:text-gray-900 transition">Notícias</a>
+                    <a href="sobre.html" class="hover:text-gray-900 transition duration-300 text-red-500 font-bold">Sobre Nós</a>
+                    <a href="loja1.html" class="hover:text-gray-900 transition">Loja</a>
+                    <a href="patrocinadores.html" class="hover:text-gray-900 transition">Patrocinadores</a>
+
+                <!-- Coluna Direita: Direitos de Autor -->
+                 <div class="text-sm text-gray-400">
+                    &copy; 2025 Clube Futsal de Oeiras. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Funcionalidade do Modal/Popup de Imagens
+        document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.querySelector('.modal-close');
+        const modalPrev = document.querySelector('.modal-prev');
+        const modalNext = document.querySelector('.modal-next');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentImageIndex = 0;
+        const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
+
+        // Abrir modal ao clicar numa imagem
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentImageIndex = index;
+                modalImage.src = images[currentImageIndex];
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Impede scroll
+            });
+        });
+
+        // Fechar modal
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Permite scroll
+        }
+
+        modalClose.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Navegação anterior
+        modalPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            modalImage.src = images[currentImageIndex];
+        });
+
+        // Navegação seguinte
+        modalNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            modalImage.src = images[currentImageIndex];
+        });
+
+        // Fechar com a tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+            if (e.key === 'ArrowLeft') {
+                modalPrev.click();
+            }
+            if (e.key === 'ArrowRight') {
+                modalNext.click();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

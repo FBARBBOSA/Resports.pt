@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portefólio Desportivo - Resports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#030303',
+                        accent: '#fbbf24',
+                        secondary: '#111111',
+                        surface: '#0a0a0a'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Chakra Petch', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Chakra+Petch:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { overflow-x: hidden; background-color: #030303; }
+        
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #fbbf24; }
+
+        .font-display { font-family: 'Chakra Petch', sans-serif; }
+
+        .nav-link { position: relative; color: #9ca3af; transition: color 0.3s ease; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; background-color: #fbbf24; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(-50%); }
+        .nav-link:hover { color: white; text-shadow: 0 0 10px rgb(251, 190, 36); }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fbbf24; }
+        .nav-link.active::after { width: 100%; }
+
+        .poster-card { cursor: pointer; transition: transform 0.3s ease; }
+        .poster-card:hover { transform: scale(1.05); }
+
+        .modal { position: fixed; display: none; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .modal.active { opacity: 1; }
+        .modal-content { max-width: 90%; max-height: 90vh; }
+        .close-btn { position: absolute; right: 40px; top: 30px; font-size: 40px; font-weight: bold; color: white; cursor: pointer; z-index: 60; }
+        .close-btn:hover { color: #fbbf24; }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: transparent;
+            color: white;
+            transition: all 0.4s ease-in-out;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .navbar.scrolled {
+            background-color: #020202;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Navbar -->
+    <nav class="navbar" id="mainNavbar">
+        <div class="flex-shrink-0 flex items-center group cursor-pointer">
+            <a href="index.html"><img src="img/Screenshot_2025-11-30_151505-removebg-preview.png" alt="Logo" class="h-16"></a>
+        </div>
+        <div class="hidden md:flex items-center space-x-10">
+            <a href="index.html" class="nav-link text-slate-300 hover:text-white font-medium">Início</a>
+            <a href="servicos.html" class="nav-link text-slate-300 hover:text-white font-medium">Serviços</a>
+            <a href="portefolio.html" class="nav-link text-slate-300 hover:text-white font-medium">Portfólio</a>
+            <a href="sobre.html" class="nav-link text-slate-300 hover:text-white font-medium">Sobre</a>
+        </div>
+        <div class="hidden md:block">
+            <a href="contacto.html" class="bg-yellow-400 hover:bg-yellow-500 text-slate-900 px-10 py-2.5 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-yellow-400/20">
+                Contacto
+            </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="text-slate-300 hover:text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-16 left-0 right-0 bg-slate-900 border-b border-slate-800 z-40">
+        <div class="px-4 pt-2 pb-6 space-y-1">
+            <a href="index.html" class="block px-3 py-4 text-base font-medium text-white">Início</a>
+            <a href="servicos.html" class="block px-3 py-4 text-base font-medium text-slate-300 hover:text-white">Serviços</a>
+            <a href="portefolio.html" class="block px-3 py-4 text-base font-medium text-slate-300 hover:text-white">Portfólio</a>
+            <a href="sobre.html" class="block px-3 py-4 text-base font-medium text-slate-300 hover:text-white">Sobre</a>
+            <div class="pt-4 px-3">
+                <a href="contacto.html" class="block w-full bg-yellow-400 text-slate-900 px-6 py-4 rounded-xl font-bold text-center">
+                    Contacto
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const navbar = document.getElementById('mainNavbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-20 px-6 text-center max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-black mb-6 uppercase leading-none font-display">Projetos <span class="text-accent">Resports</span></h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">Especialista em branding, posters de alta performance e edição de vídeo para atletas e clubes de elite.</p>
+    </header>
+
+    <!-- Gallery -->
+    <main class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 pb-20">
+        <div class="poster-card rounded-lg overflow-hidden" onclick="openModal('PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Cartaz para jogadores.png')">
+            <div class="aspect-[2/3] bg-gray-800">
+                <img src="PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Cartaz para jogadores.png" alt="Poster 1" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="poster-card rounded-lg overflow-hidden" onclick="openModal('PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Cartaz patrocinadores vertical.png')">
+            <div class="aspect-[2/3] bg-gray-800">
+                <img src="PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Cartaz patrocinadores vertical.png" alt="Poster 2" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="poster-card rounded-lg overflow-hidden" onclick="openModal('PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Laranja Preto e Branco Futebol Cartaz.png')">
+            <div class="aspect-[2/3] bg-gray-800">
+                <img src="PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Laranja Preto e Branco Futebol Cartaz.png" alt="Poster 3" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="poster-card rounded-lg overflow-hidden" onclick="openModal('PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Panfleto torneio beneficente futebol criativo branco preto laranja (1).png')">
+            <div class="aspect-[2/3] bg-gray-800">
+                <img src="PAP TRABALHOS/PAP_Finalizada/CFO/Cartazes_Flyers/Panfleto torneio beneficente futebol criativo branco preto laranja (1).png" alt="Poster 4" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="poster-card rounded-lg overflow-hidden" onclick="openModal('PAP TRABALHOS/PAP_Finalizada/CFOxResports/Cartaz/Post CFO.png')">
+            <div class="aspect-[2/3] bg-gray-800">
+                <img src="PAP TRABALHOS/PAP_Finalizada/CFOxResports/Cartaz/Post CFO.png" alt="Poster 5" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+     
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="posterModal" class="modal" onclick="closeModal()">
+        <span class="close-btn">&times;</span>
+        <img id="modalImg" src="" alt="Poster ampliado" class="modal-content rounded shadow-2xl" onclick="event.stopPropagation()">
+    </div>
+
+    
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+     
+        .media-card {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+        }
+
+        .media-card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Estilo para a imagem de pré-visualização do site */
+        .site-preview-wrapper {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .site-preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+            transition: filter 0.4s ease;
+        }
+
+        .site-preview-wrapper:hover .site-preview-image {
+            filter: brightness(0.4);
+        }
+
+        .overlay-content {
+            position: absolute; 
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .caption-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    
+    <main class="max-w-7xl mx-auto space-y-16">
+        
+        <!-- Secção de Vídeos -->
+        <section>
+            <div class="flex items-center gap-2 mb-8 border-b border-slate-800 pb-4">
+                <span class="w-2 h-8 bg-yellow-400 rounded-full"></span>
+                <h2 class="text-2xl font-bold text-slate-100">Conteúdo em Vídeo</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Vídeo 1 -->
+                <div class="group">
+                    <div class="media-card rounded-xl overflow-hidden bg-slate-900 shadow-xl mb-6">
+                        <div class="aspect-video w-full">
+                            <iframe 
+                                src="PAP TRABALHOS/PAP_Finalizada/CFO/Mascote/Mascote 3D.mp4" 
+                                title="Vídeo 1"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen
+                                class="w-full h-full">
+                            </iframe>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                      
+                        <h3 class="text-lg font-semibold text-slate-100 mb-2">Mascote Blaze</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                           Mascote feita para Cfo-Clube Futsal Oeiras em 3D. Ideal para campanhas promocionais e eventos.
+                        </p>
+                    </div>
+                </div>
+
+               <!-- Vídeo YouTube -->
+                <div class="group">
+                    <div class="media-card rounded-xl overflow-hidden bg-slate-900 shadow-xl mb-6">
+                        <div class="aspect-video">
+                            <!-- Linha de código para YouTube: Substitua o ID (dQw4w9WgXcQ) pelo do seu vídeo -->
+                            <iframe 
+                                class="w-full h-full"
+                                src="PAP TRABALHOS/PAP_Finalizada/VIDEO - filipe Barbosa (720p, h264).mp4" 
+                                title="YouTube video player" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                    
+                        <h3 class="text-lg font-semibold text-slate-100 mb-2">Aplicação</h3>
+                        <p class="text-slate-400 text-sm">Aplicação desenvolvida para o CFO - Clube Futsal Oeiras, com funcionalidades avançadas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secção de Redirecionamento de Site -->
+        <section>
+            <div class="flex items-center gap-2 mb-8 border-b border-slate-800 pb-4">
+                <span class="w-2 h-8 bg-yellow-400 rounded-full"></span>
+                <h2 class="text-2xl font-bold text-slate-100">Exploração Externa</h2>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Card do Site com Imagem e Botão -->
+                <div class="site-preview-wrapper media-card shadow-2xl">
+                    <img src="img/upscalemedia-transformed.jpeg" alt="Pré-visualização do Site" class="site-preview-image">
+                    
+                    <div class="overlay-content p-6">
+                        <span class="caption-tag bg-yellow-400 text-white shadow-lg">Link Externo</span>
+                        <h3 class="text-3xl md:text-4xl font-bold text-white mb-4 text-center">Visitar Website Oficial</h3>
+                        <p class="text-slate-200 text-center max-w-lg mb-8 text-lg font-light">
+                            Clique abaixo para ser redirecionado para a plataforma completa e explorar todos os recursos disponíveis.
+                        </p>
+                        <a href="PAP TRABALHOS/PAP_Finalizada/CFO/Site/homepage.html" target="_blank" class="px-8 py-4 bg-yellow-400     hover:bg-emerald-400 text-slate-900 font-bold rounded-full transition-all transform hover:scale-105 shadow-xl flex items-center gap-2">
+                            <span>Aceder ao Site</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                </section>
+         
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 text-center md:text-left">
+                        <div class="max-w-2xl">
+                            <h3 class="text-xl font-bold text-slate-100">Site Cfo-Clube Futsal Oeiras</h3>
+                            <p class="text-slate-400 text-sm mt-1 leading-relaxed">
+                                Website oficial desenvolvido para o CFO - Clube Futsal Oeiras, apresentando informações sobre a equipa, calendário de jogos, notícias e muito mais.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    
+    <!-- Footer -->
+    <footer class="bg-black text-white py-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+            <div>
+                <a href="index.html"><img src="img/Screenshot_2025-11-30_151505-removebg-preview.png" alt="Logo" class="h-16"></a>
+                <p class="text-gray-400 mt-4">Marketing desportivo de alta performance. Estratégias vencedoras para marcas campeãs.</p>
+            </div>
+            
+            <div>
+                <h3 class="font-bold text-lg mb-4 text-accent">LINKS RÁPIDOS</h3>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="index.html" class="hover:text-accent transition">Início</a></li>
+                    <li><a href="servicos.html" class="hover:text-accent transition">Serviços</a></li>
+                    <li><a href="sobre.html" class="hover:text-accent transition">Sobre</a></li>
+                    <li><a href="contacto.html" class="hover:text-accent transition">Contacto</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="font-bold text-lg mb-4 text-accent">REDES SOCIAIS</h3>
+                <div class="flex space-x-3">
+                    <a href="https://www.instagram.com/resports_amp/"><img src="img/insta.png" alt="Instagram" class="h-9"></a>
+                    <a href="https://www.tiktok.com/@resports_amp"><img src="img/tiktok.avif" alt="TikTok" class="h-9 w-9"></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 mt-8 pt-4 border-t border-gray-800 max-w-7xl mx-auto px-6">
+            <p>&copy; 2025 RESPORTS. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <div class="noise-overlay"></div>
+
+    <script>
+        const modal = document.getElementById('posterModal');
+        const modalImg = document.getElementById('modalImg');
+
+        function openModal(imgSrc) {
+            modalImg.src = imgSrc;
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
